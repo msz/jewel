@@ -370,13 +370,13 @@ void handleKeyEvent(int value) {
         pressKey(KEYPAD_ASTERIX);                     // Make sure to handle NUM LOCK internally!!!!!
         break;
       case 56:
-        modKeyPress(MODIFIERKEY_ALT);                    // left alt
+        modKeyPress(MODIFIERKEY_GUI);   // actually the Alt key
         break;
       case 57:
         setOpenKey(KEY_SPACE);
         break;
       case 58:
-        setOpenKey(KEY_CAPS_LOCK);
+        modKeyPress(MODIFIERKEY_RIGHT_GUI);  // actually the Caps Lock key
         break;
       case 59:
         pressKey(KEY_F1);                        // F* Keys are handled under NumLock. Numlock off = 1-10. When on, F9=F11, F10=F12
@@ -448,7 +448,7 @@ void handleKeyEvent(int value) {
         pressKey(KEYPAD_3);
         break;
       case 82:
-        pressKey(KEYPAD_0);
+        modKeyPress(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
         break;
       case 83:
         pressKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
@@ -622,13 +622,13 @@ void handleKeyEvent(int value) {
         releaseKey(KEYPAD_ASTERIX);                     // Make sure to handle NUM LOCK internally!!!!!
         break;
       case 184:
-        modKeyRel(MODIFIERKEY_ALT);                    //  Technically left alt, registers as left alt
+        modKeyRel(MODIFIERKEY_GUI);   // Actually the Alt key
         break;
       case 185:
         clearKey(KEY_SPACE);
         break;
       case 186:
-        clearKey(KEY_CAPS_LOCK);
+        modKeyRel(MODIFIERKEY_RIGHT_GUI);   // Actually the Caps Lock key
         break;
       case 187:
         releaseKey(KEY_F1);                        // F* Keys are handled under NumLock. Numlock off = 1-10. When on, F9=F11, F10=F12
@@ -700,7 +700,7 @@ void handleKeyEvent(int value) {
         releaseKey(KEYPAD_3);
         break;
       case 210:
-        releaseKey(KEYPAD_0);
+        modKeyRel(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
         break;
       case 211:
         releaseKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
