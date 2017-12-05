@@ -325,13 +325,13 @@ void handleKeyEvent(int value) {
         setOpenKey(KEY_QUOTE);
         break;
       case 41:
-        setOpenKey(KEY_TILDE);
+        setOpenKey(KEY_BACKSLASH);  // Actually Tilde
         break;
       case 42:
         modKeyPress(MODIFIERKEY_SHIFT);                  // Left shift
         break;
       case 43:
-        setOpenKey(KEY_BACKSLASH);
+        setOpenKey(KEY_TILDE);  // Actually Backslash
         break;
       case 44:
         setOpenKey(KEY_Z);
@@ -577,13 +577,13 @@ void handleKeyEvent(int value) {
         clearKey(KEY_QUOTE);
         break;
       case 169:
-        clearKey(KEY_TILDE);
+        clearKey(KEY_BACKSLASH); // Actually Tilde
         break;
       case 170:
         modKeyRel(MODIFIERKEY_SHIFT);                  // Left shift
         break;
       case 171:
-        clearKey(KEY_BACKSLASH);
+        clearKey(KEY_TILDE);  // Actually Backslash
         break;
       case 172:
         clearKey(KEY_Z);
