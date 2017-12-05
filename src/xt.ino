@@ -1,7 +1,7 @@
 
 /* Copyright (C) 2017 Michal Szewczak
  * Original code copyright (C) 2016 Armando L. Montanez
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 // I/O pins used
 const int CLK_Pin = 2;       // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int DATA_Pin = 3;      // Feel free to make this any unused digital pin (must be 5v tolerant!)
@@ -41,7 +41,7 @@ int readCode = 0;            // 1 means we're being sent a scancode
 
 
 void setup() {
-  pinMode(CLK_Pin, INPUT); 
+  pinMode(CLK_Pin, INPUT);
   pinMode(DATA_Pin, INPUT);
   pinMode(LED_Pin, OUTPUT);    // LED is on when NumLock is enabled
 }
@@ -364,7 +364,7 @@ void handleKeyEvent(int value) {
         setOpenKey(KEY_SLASH);
         break;
       case 54:
-        modKeyPress(MODIFIERKEY_SHIFT);                  // Generic (left) shift used, right shift key.
+        modKeyPress(MODIFIERKEY_RIGHT_SHIFT);
         break;
       case 55:
         pressKey(KEYPAD_ASTERIX);                     // Make sure to handle NUM LOCK internally!!!!!
@@ -453,9 +453,9 @@ void handleKeyEvent(int value) {
       case 83:
         pressKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
         break;
-        
+
       /////////////THESE ARE THE BREAK SIGNALS//////////////
-      
+
       case 129:
         clearKey(KEY_ESC);
         break;
@@ -616,7 +616,7 @@ void handleKeyEvent(int value) {
         clearKey(KEY_SLASH);
         break;
       case 182:
-        modKeyRel(MODIFIERKEY_SHIFT);                  // Generic (left) shift used, right shift key.
+        modKeyRel(MODIFIERKEY_RIGHT_SHIFT);
         break;
       case 183:
         releaseKey(KEYPAD_ASTERIX);                     // Make sure to handle NUM LOCK internally!!!!!
@@ -705,9 +705,9 @@ void handleKeyEvent(int value) {
       case 211:
         releaseKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
         break;
-      
+
       /////////SORRY, I ONLY IMPLEMENTED MODEL F XT 83 KEY SUPPORT/////////////
-      
+
       default:
         break;
     }
@@ -715,15 +715,15 @@ void handleKeyEvent(int value) {
 
 
 void loop() {
-  // This catches a LOW in clock, signaling the start of a scan code 
+  // This catches a LOW in clock, signaling the start of a scan code
   if (readCode == 0 && digitalRead(CLK_Pin) == 0) {
     readCode = 1;
   }
-  
+
   // Note how numbits must be 9 instead of 8.
   // If we ignore the 9th pulse, it re-triggers readCode,
   // causing invalid scancodes.
-  // The the 9th value should always be 0, so it 
+  // The the 9th value should always be 0, so it
   // shouldn't change the scan code.
   if (numBits == 9) {
     if (scanCode != lastScanCode) {
@@ -738,7 +738,7 @@ void loop() {
     numBits = 0;
     readCode = 0;
   }
-  
+
   // since the code detects the rising edge of clock,
   // we use readCode to filter out the fact that
   // clock rests HIGH.
@@ -746,7 +746,7 @@ void loop() {
     // On each rising edge, get the respective DATA.
     // cycleReadYet prevents multiple reads on the same cycle.
     if (digitalRead(CLK_Pin) == 1 && cycleReadYet == 0) {
-      
+
       // The first clock pulse signals the start of a scan code.
       // This means it has no relevant data.
       if (sigStart == 0){
@@ -765,6 +765,6 @@ void loop() {
     if (digitalRead(CLK_Pin) == 0) {
       cycleReadYet = 0;
     }
-  } 
+  }
 }
 
