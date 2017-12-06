@@ -415,43 +415,43 @@ void handleKeyEvent(int value) {
         pressKey(KEY_SCROLL_LOCK);
         break;
       case 71:
-        pressKey(KEYPAD_7);                          // numbers are NumLock handled by OS
+        pressKey(KEY_HOME); // actually Keypad 7
         break;
       case 72:
-        pressKey(KEYPAD_8);
+        pressKey(KEY_UP); // actually Keypad 8
         break;
       case 73:
-        pressKey(KEYPAD_9);
+        pressKey(KEY_PAGE_UP);  // actually Keypad 9
         break;
       case 74:
         pressKey(KEYPAD_MINUS);
         break;
       case 75:
-        pressKey(KEYPAD_4);
+        pressKey(KEY_LEFT); // Actually Keypad 4
         break;
       case 76:
-        pressKey(KEYPAD_5);
+        pressKey(KEY_DOWN); // Actually Keypad 5
         break;
       case 77:
-        pressKey(KEYPAD_6);
+        pressKey(KEY_RIGHT);  // Actually Keypad 6
         break;
       case 78:
         pressKey(KEYPAD_PLUS);
         break;
       case 79:
-        pressKey(KEYPAD_1);
+        pressKey(KEY_END);  // Actually Keypad 1
         break;
       case 80:
-        pressKey(KEYPAD_2);
+        pressKey(KEY_DOWN); // Actually Keypad 2
         break;
       case 81:
-        pressKey(KEYPAD_3);
+        pressKey(KEY_PAGE_DOWN);  // Actually Keypad 3
         break;
       case 82:
         modKeyPress(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
         break;
       case 83:
-        pressKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
+        pressKey(KEY_DELETE);  // Actually Keypad Period
         break;
 
       /////////////THESE ARE THE BREAK SIGNALS//////////////
@@ -667,43 +667,43 @@ void handleKeyEvent(int value) {
         releaseKey(KEY_SCROLL_LOCK);
         break;
       case 199:
-        releaseKey(KEYPAD_7);                          // numbers are NumLock handled by OS
+        releaseKey(KEY_HOME); // Actually Keypad 7
         break;
       case 200:
-        releaseKey(KEYPAD_8);
+        releaseKey(KEY_UP); // Actually Keypad 8
         break;
       case 201:
-        releaseKey(KEYPAD_9);
+        releaseKey(KEY_PAGE_UP);  // Actually Keypad 9
         break;
       case 202:
         releaseKey(KEYPAD_MINUS);
         break;
       case 203:
-        releaseKey(KEYPAD_4);
+        releaseKey(KEY_LEFT); // Actually Keypad 4
         break;
       case 204:
-        releaseKey(KEYPAD_5);
+        releaseKey(KEY_DOWN); // Actually Keypad 5
         break;
       case 205:
-        releaseKey(KEYPAD_6);
+        releaseKey(KEY_RIGHT); // Actually Keypad 6
         break;
       case 206:
         releaseKey(KEYPAD_PLUS);
         break;
       case 207:
-        releaseKey(KEYPAD_1);
+        releaseKey(KEY_END);  // Actually Keypad 1
         break;
       case 208:
-        releaseKey(KEYPAD_2);
+        releaseKey(KEY_DOWN); // Actually Keypad 2
         break;
       case 209:
-        releaseKey(KEYPAD_3);
+        releaseKey(KEY_PAGE_DOWN);  // Actually Keypad 3
         break;
       case 210:
         modKeyRel(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
         break;
       case 211:
-        releaseKey(KEYPAD_PERIOD);          ///THIS IS THE LAST KEY ON THE MODEL F
+        releaseKey(KEY_DELETE);  // actually Keypad Period
         break;
 
       /////////SORRY, I ONLY IMPLEMENTED MODEL F XT 83 KEY SUPPORT/////////////
