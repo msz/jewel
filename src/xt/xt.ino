@@ -195,7 +195,7 @@ void releaseKey(uint8_t target) {
       else if (target == 7)
         clearKey(KEY_F12);
       else if (target == 85)
-          clearKey(KEY_PRINTSCREEN);
+        clearKey(KEY_PRINTSCREEN);
       else if (target == 58)
         clearKey(KEY_INSERT);
       else if (target == 59)
@@ -209,7 +209,7 @@ void releaseKey(uint8_t target) {
       if (target == 71) {
         // this is the buzzer toggle so do nothing
       } else {
-        setOpenKey(target);
+        clearKey(target);
       }
     }
   }
