@@ -20,11 +20,15 @@
 const int CLK_Pin = 2;       // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int DATA_Pin = 3;      // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int LED_Pin = 13;      // the number of the LED pin (for NumLock)
+const int BUZZ_Pin = 23;     // pin for the piezo buzzer
+
+// Buzzer config
+const unsigned long BUZZ_DURATION = 50;   // duration of one key buzz (millis)
+const unsigned int BUZZ_FREQUENCY = 500;  // frequency of key buzz (Hz)
 
 
 // Array tracks keys currently being held
 uint8_t keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
-
 
 // global variables, track Ctrl, Shift, Alt, Gui (Windows), and NumLock key statuses.
 int modifiers = 0;            // 1=c, 2=s, 3=sc, 4=a, 5=ac, 6=as, 7=asc, 8=g, 9=gc...
@@ -39,11 +43,18 @@ int sigStart = 0;            // Used to bypass the first clock cycle of a scanco
 int temp = 0;                // used to bitshift the read bit
 int readCode = 0;            // 1 means we're being sent a scancode
 
+int buzzer = 0; // buzzer state
 
 void setup() {
   pinMode(CLK_Pin, INPUT);
   pinMode(DATA_Pin, INPUT);
   pinMode(LED_Pin, OUTPUT);    // LED is on when NumLock is enabled
+}
+
+void maybeBuzz() {
+  if(buzzer) {
+    tone(BUZZ_Pin, BUZZ_FREQUENCY, BUZZ_DURATION);
+  }
 }
 
 // These handle press/release of Ctrl, Shift, Alt, and Gui keys
@@ -95,6 +106,7 @@ void setOpenKey(uint8_t target) {
       }
       keysHeld[i] = target;
       Keyboard.send_now();
+      maybeBuzz();
       break;
     }
   }
@@ -151,10 +163,8 @@ void pressKey(uint8_t target) {
         setOpenKey(KEY_F11);
       else if (target == 7)
         setOpenKey(KEY_F12);
-      else if (target == 71)
-        setOpenKey(KEY_PAUSE);
       else if (target == 85)
-        setOpenKey(KEY_PRINTSCREEN);
+          setOpenKey(KEY_PRINTSCREEN);
       else if (target == 58)
         setOpenKey(KEY_INSERT);
       else if (target == 59)
@@ -165,9 +175,14 @@ void pressKey(uint8_t target) {
       } else
       setOpenKey(target);
     } else {
-      setOpenKey(target);
+      if (target == 71) {
+        buzzer = !buzzer;
+      } else {
+        setOpenKey(target);
+      }
     }
   }
+  maybeBuzz();
 }
 
 void releaseKey(uint8_t target) {
@@ -179,10 +194,8 @@ void releaseKey(uint8_t target) {
         clearKey(KEY_F11);
       else if (target == 7)
         clearKey(KEY_F12);
-      else if (target == 71)
-        clearKey(KEY_PAUSE);
       else if (target == 85)
-        clearKey(KEY_PRINTSCREEN);
+          clearKey(KEY_PRINTSCREEN);
       else if (target == 58)
         clearKey(KEY_INSERT);
       else if (target == 59)
@@ -193,7 +206,11 @@ void releaseKey(uint8_t target) {
       } else
       clearKey(target);
     } else {
-      clearKey(target);
+      if (target == 71) {
+        // this is the buzzer toggle so do nothing
+      } else {
+        setOpenKey(target);
+      }
     }
   }
 }
@@ -767,4 +784,3 @@ void loop() {
     }
   }
 }
-
