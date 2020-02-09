@@ -43,7 +43,7 @@ int sigStart = 0;            // Used to bypass the first clock cycle of a scanco
 int temp = 0;                // used to bitshift the read bit
 int readCode = 0;            // 1 means we're being sent a scancode
 
-int buzzer = 0; // buzzer state
+int buzzer = 0; // buzzer mode. 0 = no buzz, 1 = constant buzz, 2 = variable buzz
 
 void setup() {
   pinMode(CLK_Pin, INPUT);
@@ -51,9 +51,15 @@ void setup() {
   pinMode(LED_Pin, OUTPUT);    // LED is on when NumLock is enabled
 }
 
-void maybeBuzz() {
-  if(buzzer) {
+void maybeBuzz(uint8_t target) {
+  if(buzzer == 0) {
+    // no tones
+  } else if (buzzer == 1) {
+    // constant tone
     tone(BUZZ_Pin, BUZZ_FREQUENCY, BUZZ_DURATION);
+  } else if (buzzer == 2) {
+    // variable tones
+    tone(BUZZ_Pin, BUZZ_FREQUENCY + (target*4), BUZZ_DURATION);
   }
 }
 
@@ -106,7 +112,7 @@ void setOpenKey(uint8_t target) {
       }
       keysHeld[i] = target;
       Keyboard.send_now();
-      maybeBuzz();
+      maybeBuzz(target);
       break;
     }
   }
@@ -176,13 +182,20 @@ void pressKey(uint8_t target) {
       setOpenKey(target);
     } else {
       if (target == 71) {
-        buzzer = !buzzer;
+        buzzer = (buzzer + 1) % 3;
+        if (buzzer == 0) {
+          // no sound
+        } else if (buzzer == 1) {
+          tone(BUZZ_Pin, BUZZ_FREQUENCY, BUZZ_DURATION);
+        } else if (buzzer == 2) {
+          tone(BUZZ_Pin, BUZZ_FREQUENCY*4, BUZZ_DURATION);
+        }
       } else {
         setOpenKey(target);
       }
     }
   }
-  maybeBuzz();
+  maybeBuzz(target);
 }
 
 void releaseKey(uint8_t target) {
