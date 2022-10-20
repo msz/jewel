@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <EEPROM.h>
+
 // I/O pins used
 const int CLK_Pin = 2;       // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int DATA_Pin = 3;      // Feel free to make this any unused digital pin (must be 5v tolerant!)
@@ -23,9 +25,15 @@ const int LED_Pin = 13;      // the number of the LED pin (for NumLock)
 const int BUZZ_Pin = 23;     // pin for the piezo buzzer
 
 // Buzzer config
-const unsigned long BUZZ_DURATION = 50;   // duration of one key buzz (millis)
-const unsigned int BUZZ_FREQUENCY = 500;  // frequency of key buzz (Hz)
+const unsigned int BUZZ_DURATION = 100;   // duration of one buzz (millis)
+const unsigned int BUZZ_INTERVAL = 500;   // interval between buzzes (millis)
+const unsigned int BUZZ_FREQUENCY = 200;  // frequency of buzz (Hz)
 
+// Config for saving key press count
+const unsigned int SAVE_DELAY = 5 * 60 * 1000;                 // Delay after keypress after which the keypress count is saved to EEPROM (millis)
+const unsigned int EEPROM_WRITE_SAFETY_THRESHOLD = 60000;      // Warn after this many writes. EEPROM memory is rated for 100,000 writes.
+const int KEYPRESSES_ADDRESS = 0;                              // EEPROM address to write the keypresses data to.
+const int SAVES_ADDRESS = KEYPRESSES_ADDRESS + sizeof(long);   // EEPROM address to write the saves data to.
 
 // Array tracks keys currently being held
 uint8_t keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
@@ -43,24 +51,40 @@ int sigStart = 0;            // Used to bypass the first clock cycle of a scanco
 int temp = 0;                // used to bitshift the read bit
 int readCode = 0;            // 1 means we're being sent a scancode
 
-int buzzer = 0; // buzzer mode. 0 = no buzz, 1 = constant buzz, 2 = variable buzz
+unsigned long buzzingNumber = 0;
+elapsedMillis sinceToneStop = BUZZ_INTERVAL + 1;
+elapsedMillis sinceTone = sinceToneStop + 10000;   // we pretend that tone has stopped rather than started to initialise buzzing correctly
+
+unsigned int savePending = 0;   // whether a keypress count save to EEPROM is scheduled
+elapsedMillis sinceSaveScheduled = 0;
+
+unsigned long keyPresses = 0;
+unsigned int saves = 0;
 
 void setup() {
   pinMode(CLK_Pin, INPUT);
   pinMode(DATA_Pin, INPUT);
   pinMode(LED_Pin, OUTPUT);    // LED is on when NumLock is enabled
+
+  EEPROM.get(KEYPRESSES_ADDRESS, keyPresses);
+  EEPROM.get(SAVES_ADDRESS, saves);
 }
 
-void maybeBuzz(uint8_t target) {
-  if(buzzer == 0) {
-    // no tones
-  } else if (buzzer == 1) {
-    // constant tone
-    tone(BUZZ_Pin, BUZZ_FREQUENCY, BUZZ_DURATION);
-  } else if (buzzer == 2) {
-    // variable tones
-    tone(BUZZ_Pin, BUZZ_FREQUENCY + (target*4), BUZZ_DURATION);
+void saveKeyPress() {
+  keyPresses++;
+  savePending = 1;
+  sinceSaveScheduled = 0;
+}
+
+void buzzNumber(unsigned long n) {
+  if (n == 0) {
+    return;
   }
+  n = (n << 1) + 1;   // save the end of the bitstring
+  while ((n & 0x80000000ul) == 0) {
+    n = n << 1;
+  }
+  buzzingNumber = n;
 }
 
 // These handle press/release of Ctrl, Shift, Alt, and Gui keys
@@ -71,6 +95,7 @@ void maybeBuzz(uint8_t target) {
 void modKeyPress(uint8_t target) {
   modifiers = modifiers | target;
   updateModifiers();
+  saveKeyPress();
 }
 void modKeyRel(uint8_t target) {
   modifiers = modifiers ^ target;
@@ -112,10 +137,10 @@ void setOpenKey(uint8_t target) {
       }
       keysHeld[i] = target;
       Keyboard.send_now();
-      maybeBuzz(target);
       break;
     }
   }
+  saveKeyPress();
 }
 
 // Clears a key from the buffer if it's there. Otherwise, ignores.
@@ -182,20 +207,13 @@ void pressKey(uint8_t target) {
       setOpenKey(target);
     } else {
       if (target == 71) {
-        buzzer = (buzzer + 1) % 3;
-        if (buzzer == 0) {
-          // no sound
-        } else if (buzzer == 1) {
-          tone(BUZZ_Pin, BUZZ_FREQUENCY, BUZZ_DURATION);
-        } else if (buzzer == 2) {
-          tone(BUZZ_Pin, BUZZ_FREQUENCY*4, BUZZ_DURATION);
-        }
+        buzzNumber(keyPresses);
       } else {
         setOpenKey(target);
       }
     }
   }
-  maybeBuzz(target);
+  saveKeyPress();
 }
 
 void releaseKey(uint8_t target) {
@@ -795,5 +813,30 @@ void loop() {
     if (digitalRead(CLK_Pin) == 0) {
       cycleReadYet = 0;
     }
+  }
+
+  if (buzzingNumber != 0x80000000ul && buzzingNumber != 0) {
+    if (sinceTone < sinceToneStop && sinceTone > BUZZ_DURATION) {
+      noTone(BUZZ_Pin);
+      sinceToneStop = 0;
+      buzzingNumber = buzzingNumber << 1;
+    } else if (sinceToneStop < sinceTone && sinceToneStop > BUZZ_INTERVAL) {
+      int value = ((buzzingNumber & 0x80000000ul) > 0)? 4 : 1;
+      tone(BUZZ_Pin, value * BUZZ_FREQUENCY);
+      sinceTone = 0;
+    }
+  } else if (buzzingNumber == 0x80000000ul) {
+    buzzingNumber = 0;
+  }
+
+  if (savePending && sinceSaveScheduled > SAVE_DELAY) {
+    saves++;
+    EEPROM.put(KEYPRESSES_ADDRESS, keyPresses);
+    EEPROM.put(SAVES_ADDRESS, saves);
+    // We want to warn when we start writing more than the safety threshold.
+    if (saves > EEPROM_WRITE_SAFETY_THRESHOLD) {
+      buzzNumber(5);   // 101 in binary, sounds like SOS
+    }
+    savePending = 0;
   }
 }
