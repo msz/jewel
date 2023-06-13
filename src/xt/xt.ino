@@ -68,6 +68,8 @@ void setup() {
 
   EEPROM.get(KEYPRESSES_ADDRESS, keyPresses);
   EEPROM.get(SAVES_ADDRESS, saves);
+
+  digitalWrite(LED_Pin, HIGH);
 }
 
 void saveKeyPress() {
@@ -140,11 +142,13 @@ void setOpenKey(uint8_t target) {
       break;
     }
   }
+  digitalWrite(LED_Pin, LOW);
   saveKeyPress();
 }
 
 // Clears a key from the buffer if it's there. Otherwise, ignores.
 void clearKey(uint8_t target) {
+  int any = 0;
   for (int i = 0; i < 6; i++) {
     if (keysHeld[i] == target) {
       switch (i) {
@@ -172,6 +176,12 @@ void clearKey(uint8_t target) {
       keysHeld[i] = 0;
       Keyboard.send_now();
     }
+    if (keysHeld[i] != 0) {
+      any = 1;
+    }
+  }
+  if (any == 0) {
+    digitalWrite(LED_Pin, HIGH);
   }
 }
 
@@ -184,10 +194,6 @@ void pressKey(uint8_t target) {
   if (target == 83) { //number of keylock key
     setOpenKey(KEY_NUM_LOCK);
     numLock = numLock ^ 1;
-    if (numLock == 1)
-      digitalWrite(LED_Pin, HIGH);
-    else
-      digitalWrite(LED_Pin, LOW);
   } else {        /// HANDLING OF EXTRA NUMLOCK KEYS. F11, F12, PAUSE, PRTSC, AND SUCH
     if (numLock == 1) {
       if (target == 66)
