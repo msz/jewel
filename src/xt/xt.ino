@@ -62,6 +62,9 @@ unsigned long keyPresses = 0;
 unsigned int saves = 0;
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("hello from jewel");
+
   pinMode(CLK_Pin, INPUT);
   pinMode(DATA_Pin, INPUT);
   pinMode(LED_Pin, OUTPUT);    // LED is on when NumLock is enabled
@@ -69,7 +72,13 @@ void setup() {
   EEPROM.get(KEYPRESSES_ADDRESS, keyPresses);
   EEPROM.get(SAVES_ADDRESS, saves);
 
+  Serial.printf("retrieved stats: %d keypresses and %d saves\n", keyPresses, saves);
+
   digitalWrite(LED_Pin, HIGH);
+
+  Serial.printf("set LED to on\n");
+  Serial.printf("jewel is operational\n");
+
 }
 
 void saveKeyPress() {
@@ -111,6 +120,7 @@ void updateModifiers() {
 // Finds an open slot to place the key press signal in. (6 keys max)
 // Ignores built-in key repeating.
 void setOpenKey(uint8_t target) {
+  Serial.printf("setting open key %d\n", target);
   for (int i = 0; i < 6; i++) {
 //    if (keysHeld[i] == target)
 //      break;
@@ -769,6 +779,7 @@ void handleKeyEvent(int value) {
 
 
 void loop() {
+  // Serial.printf("%d\n", digitalRead(CLK_Pin));
   // This catches a LOW in clock, signaling the start of a scan code
   if (readCode == 0 && digitalRead(CLK_Pin) == 0) {
     readCode = 1;
