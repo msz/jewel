@@ -61,6 +61,8 @@ elapsedMillis sinceSaveScheduled = 0;
 unsigned long keyPresses = 0;
 unsigned int saves = 0;
 
+elapsedMillis sinceLiveReport = 0;
+
 void setup() {
   Serial.begin(9600);
   Serial.println("hello from jewel");
@@ -855,5 +857,10 @@ void loop() {
       buzzNumber(5);   // 101 in binary, sounds like SOS
     }
     savePending = 0;
+  }
+
+  if (sinceLiveReport > 5000) {
+    Serial.printf("/running for %d seconds/\n", millis()/1000);
+    sinceLiveReport = 0;
   }
 }
