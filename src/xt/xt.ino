@@ -36,7 +36,7 @@ const int KEYPRESSES_ADDRESS = 0;                            // EEPROM address t
 const int SAVES_ADDRESS = KEYPRESSES_ADDRESS + sizeof(long); // EEPROM address to write the saves data to.
 
 // Array tracks keys currently being held
-uint8_t keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
+int keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
 
 // global variables, track Ctrl, Shift, Alt, Gui (Windows), and NumLock key statuses.
 int modifiers = 0; // 1=c, 2=s, 3=sc, 4=a, 5=ac, 6=as, 7=asc, 8=g, 9=gc...
@@ -109,13 +109,13 @@ void buzzNumber(unsigned long n)
 // if the key press state between teensy and computer get out of sync,
 // you would be stuck with the key state being reversed (up=down, down=up)
 // (Okay, I'm paranoid)
-void modKeyPress(uint8_t target)
+void modKeyPress(int target)
 {
   modifiers = modifiers | target;
   updateModifiers();
   saveKeyPress();
 }
-void modKeyRel(uint8_t target)
+void modKeyRel(int target)
 {
   modifiers = modifiers ^ target;
   updateModifiers();
@@ -128,7 +128,7 @@ void updateModifiers()
 
 // Finds an open slot to place the key press signal in. (6 keys max)
 // Ignores built-in key repeating.
-void setOpenKey(uint8_t target)
+void setOpenKey(int target)
 {
   Serial.printf("setting open key %d\n", target);
   for (int i = 0; i < 6; i++)
@@ -170,7 +170,7 @@ void setOpenKey(uint8_t target)
 }
 
 // Clears a key from the buffer if it's there. Otherwise, ignores.
-void clearKey(uint8_t target)
+void clearKey(int target)
 {
   int any = 0;
   for (int i = 0; i < 6; i++)
@@ -219,7 +219,7 @@ void clearKey(uint8_t target)
 // statements makes it somewhat inefficent, and it would break the "d" key when
 // NumLock was enabled. I couldn't find out why, so I just manually re-routed
 // most keys to setOpenKey()
-void pressKey(uint8_t target)
+void pressKey(int target)
 {
   if (target == 83)
   { // number of keylock key
@@ -263,7 +263,7 @@ void pressKey(uint8_t target)
   saveKeyPress();
 }
 
-void releaseKey(uint8_t target)
+void releaseKey(int target)
 {
   if (target == 83)
   {
