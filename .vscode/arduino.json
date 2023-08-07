@@ -1,0 +1,6 @@
+{
+    "configuration": "usb=keyboard,speed=72,opt=o2std,keys=en-us",
+    "board": "teensy:avr:teensy31",
+    "port": "/dev/tty.URT1",
+    "sketch": "src/xt/xt.ino"
+}
