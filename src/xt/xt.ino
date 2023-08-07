@@ -21,7 +21,7 @@
 // I/O pins used
 const int CLK_Pin = 2;   // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int DATA_Pin = 3;  // Feel free to make this any unused digital pin (must be 5v tolerant!)
-const int LED_Pin = 13;  // the number of the LED pin (for NumLock)
+const int LED_Pin = 13;  // the number of the LED pin
 const int BUZZ_Pin = 23; // pin for the piezo buzzer
 
 // Buzzer config
@@ -40,7 +40,6 @@ int keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
 
 // global variables, track Ctrl, Shift, Alt, Gui (Windows), and NumLock key statuses.
 int modifiers = 0; // 1=c, 2=s, 3=sc, 4=a, 5=ac, 6=as, 7=asc, 8=g, 9=gc...
-int numLock = 0;   // so you have F11, F12, and the windows key (F8 when numlock is on)
 
 // variables utilized in main loop for reading data
 int cycleReadYet = 0; // was data read for this cycle?
@@ -70,7 +69,7 @@ void setup()
 
   pinMode(CLK_Pin, INPUT);
   pinMode(DATA_Pin, INPUT);
-  pinMode(LED_Pin, OUTPUT); // LED is on when NumLock is enabled
+  pinMode(LED_Pin, OUTPUT);
 
   EEPROM.get(KEYPRESSES_ADDRESS, keyPresses);
   EEPROM.get(SAVES_ADDRESS, saves);
@@ -214,101 +213,10 @@ void clearKey(int target)
   }
 }
 
-// These handle differences between regular key presses and numlock functions
-// previously, I ran all keypresses through this. However, the number of "if"
-// statements makes it somewhat inefficent, and it would break the "d" key when
-// NumLock was enabled. I couldn't find out why, so I just manually re-routed
-// most keys to setOpenKey()
-void pressKey(int target)
-{
-  if (target == 83)
-  { // number of keylock key
-    setOpenKey(KEY_NUM_LOCK);
-    numLock = numLock ^ 1;
-  }
-  else
-  { /// HANDLING OF EXTRA NUMLOCK KEYS. F11, F12, PAUSE, PRTSC, AND SUCH
-    if (numLock == 1)
-    {
-      if (target == 66)
-        setOpenKey(KEY_F11);
-      else if (target == 7)
-        setOpenKey(KEY_F12);
-      else if (target == 85)
-        setOpenKey(KEY_PRINTSCREEN);
-      else if (target == 58)
-        setOpenKey(KEY_INSERT);
-      else if (target == 59)
-        setOpenKey(KEY_DELETE);
-      else if (target == 65)
-      { // Since there is no windows key.
-        modifiers = modifiers | 8;
-        updateModifiers();
-      }
-      else
-        setOpenKey(target);
-    }
-    else
-    {
-      if (target == 71)
-      {
-        buzzNumber(keyPresses);
-      }
-      else
-      {
-        setOpenKey(target);
-      }
-    }
-  }
-  saveKeyPress();
-}
-
-void releaseKey(int target)
-{
-  if (target == 83)
-  {
-    clearKey(KEY_NUM_LOCK);
-  }
-  else
-  { /// HANDLING OF EXTRA NUMLOCK KEYS. F11, F12, PAUSE, PRTSC, AND SUCH
-    if (numLock == 1)
-    {
-      if (target == 66)
-        clearKey(KEY_F11);
-      else if (target == 7)
-        clearKey(KEY_F12);
-      else if (target == 85)
-        clearKey(KEY_PRINTSCREEN);
-      else if (target == 58)
-        clearKey(KEY_INSERT);
-      else if (target == 59)
-        clearKey(KEY_DELETE);
-      else if (target == 65)
-      { // Since there is no windows key.
-        modifiers = modifiers ^ 8;
-        updateModifiers();
-      }
-      else
-        clearKey(target);
-    }
-    else
-    {
-      if (target == 71)
-      {
-        // this is the buzzer toggle so do nothing
-      }
-      else
-      {
-        clearKey(target);
-      }
-    }
-  }
-}
 // This function translates scan codes to proper key events
 // First half are key presses, second half are key releases.
 // setOpenKey()/clearKey() are used for siple keypresses (optimized)
 // modKeyPress()/modKeyRel() are used for ctrl,shift,alt,windows (optimized)
-// pressKey()/releaseKey() are used for keys that are potentially affected by NumLock (semi-optimized. buggy?)
 void handleKeyEvent(int value)
 {
   switch (value)
@@ -338,10 +246,10 @@ void handleKeyEvent(int value)
     setOpenKey(KEY_7);
     break;
   case 9:
-    pressKey(KEY_8);
+    setOpenKey(KEY_8);
     break;
   case 10:
-    pressKey(KEY_9);
+    setOpenKey(KEY_9);
     break;
   case 11:
     setOpenKey(KEY_0);
@@ -368,7 +276,7 @@ void handleKeyEvent(int value)
     setOpenKey(KEY_E);
     break;
   case 19:
-    pressKey(KEY_R);
+    setOpenKey(KEY_R);
     break;
   case 20:
     setOpenKey(KEY_T);
@@ -476,7 +384,7 @@ void handleKeyEvent(int value)
     modKeyPress(MODIFIERKEY_RIGHT_SHIFT);
     break;
   case 55:
-    pressKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    setOpenKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
     break;
   case 56:
     modKeyPress(MODIFIERKEY_GUI); // actually the Alt key
@@ -488,79 +396,80 @@ void handleKeyEvent(int value)
     modKeyPress(MODIFIERKEY_RIGHT_GUI); // actually the Caps Lock key
     break;
   case 59:
-    pressKey(KEY_F1); // F* Keys are handled under NumLock. Numlock off = 1-10. When on, F9=F11, F10=F12
+    setOpenKey(KEY_F1);
     break;
   case 60:
-    pressKey(KEY_F2);
+    setOpenKey(KEY_F2);
     break;
   case 61:
-    pressKey(KEY_F3);
+    setOpenKey(KEY_F3);
     break;
   case 62:
-    pressKey(KEY_F4);
+    setOpenKey(KEY_F4);
     break;
   case 63:
-    pressKey(KEY_F5);
+    setOpenKey(KEY_F5);
     break;
   case 64:
-    pressKey(KEY_F6);
+    setOpenKey(KEY_F6);
     break;
   case 65:
-    pressKey(KEY_F7);
+    setOpenKey(KEY_F7);
     break;
   case 66:
-    pressKey(KEY_F8);
+    setOpenKey(KEY_F8);
     break;
   case 67:
-    pressKey(KEY_F9);
+    setOpenKey(KEY_F9);
     break;
   case 68:
-    pressKey(KEY_F10);
+    setOpenKey(KEY_F10);
     break;
   case 69:
-    pressKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    setOpenKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
   case 70:
-    pressKey(KEY_SCROLL_LOCK);
+    buzzNumber(keyPresses);
+    setOpenKey(KEY_SCROLL_LOCK);
     break;
   case 71:
-    pressKey(KEY_HOME); // actually Keypad 7
+    setOpenKey(KEY_HOME); // actually Keypad 7
     break;
   case 72:
-    pressKey(KEY_UP); // actually Keypad 8
+    setOpenKey(KEY_UP); // actually Keypad 8
     break;
   case 73:
-    pressKey(KEY_PAGE_UP); // actually Keypad 9
+    setOpenKey(KEY_PAGE_UP); // actually Keypad 9
     break;
   case 74:
-    pressKey(KEYPAD_MINUS);
+    setOpenKey(KEYPAD_MINUS);
     break;
   case 75:
-    pressKey(KEY_LEFT); // Actually Keypad 4
+    setOpenKey(KEY_LEFT); // Actually Keypad 4
     break;
   case 76:
-    pressKey(KEY_DOWN); // Actually Keypad 5
+    setOpenKey(KEY_DOWN); // Actually Keypad 5
     break;
   case 77:
-    pressKey(KEY_RIGHT); // Actually Keypad 6
+    setOpenKey(KEY_RIGHT); // Actually Keypad 6
     break;
   case 78:
-    pressKey(KEYPAD_PLUS);
+    setOpenKey(KEYPAD_PLUS);
     break;
   case 79:
-    pressKey(KEY_END); // Actually Keypad 1
+    setOpenKey(KEY_END); // Actually Keypad 1
     break;
   case 80:
-    pressKey(KEY_DOWN); // Actually Keypad 2
+    setOpenKey(KEY_DOWN); // Actually Keypad 2
     break;
   case 81:
-    pressKey(KEY_PAGE_DOWN); // Actually Keypad 3
+    setOpenKey(KEY_PAGE_DOWN); // Actually Keypad 3
     break;
   case 82:
     modKeyPress(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
     break;
   case 83:
-    pressKey(KEY_DELETE); // Actually Keypad Period
+    setOpenKey(KEY_DELETE); // Actually Keypad Period
     break;
 
     /////////////THESE ARE THE BREAK SIGNALS//////////////
@@ -728,7 +637,7 @@ void handleKeyEvent(int value)
     modKeyRel(MODIFIERKEY_RIGHT_SHIFT);
     break;
   case 183:
-    releaseKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    clearKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
     break;
   case 184:
     modKeyRel(MODIFIERKEY_GUI); // Actually the Alt key
@@ -740,79 +649,79 @@ void handleKeyEvent(int value)
     modKeyRel(MODIFIERKEY_RIGHT_GUI); // Actually the Caps Lock key
     break;
   case 187:
-    releaseKey(KEY_F1); // F* Keys are handled under NumLock. Numlock off = 1-10. When on, F9=F11, F10=F12
+    clearKey(KEY_F1);
     break;
   case 188:
-    releaseKey(KEY_F2);
+    clearKey(KEY_F2);
     break;
   case 189:
-    releaseKey(KEY_F3);
+    clearKey(KEY_F3);
     break;
   case 190:
-    releaseKey(KEY_F4);
+    clearKey(KEY_F4);
     break;
   case 191:
-    releaseKey(KEY_F5);
+    clearKey(KEY_F5);
     break;
   case 192:
-    releaseKey(KEY_F6);
+    clearKey(KEY_F6);
     break;
   case 193:
-    releaseKey(KEY_F7);
+    clearKey(KEY_F7);
     break;
   case 194:
-    releaseKey(KEY_F8);
+    clearKey(KEY_F8);
     break;
   case 195:
-    releaseKey(KEY_F9);
+    clearKey(KEY_F9);
     break;
   case 196:
-    releaseKey(KEY_F10);
+    clearKey(KEY_F10);
     break;
   case 197:
-    releaseKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    clearKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
   case 198:
-    releaseKey(KEY_SCROLL_LOCK);
+    clearKey(KEY_SCROLL_LOCK);
     break;
   case 199:
-    releaseKey(KEY_HOME); // Actually Keypad 7
+    clearKey(KEY_HOME); // Actually Keypad 7
     break;
   case 200:
-    releaseKey(KEY_UP); // Actually Keypad 8
+    clearKey(KEY_UP); // Actually Keypad 8
     break;
   case 201:
-    releaseKey(KEY_PAGE_UP); // Actually Keypad 9
+    clearKey(KEY_PAGE_UP); // Actually Keypad 9
     break;
   case 202:
-    releaseKey(KEYPAD_MINUS);
+    clearKey(KEYPAD_MINUS);
     break;
   case 203:
-    releaseKey(KEY_LEFT); // Actually Keypad 4
+    clearKey(KEY_LEFT); // Actually Keypad 4
     break;
   case 204:
-    releaseKey(KEY_DOWN); // Actually Keypad 5
+    clearKey(KEY_DOWN); // Actually Keypad 5
     break;
   case 205:
-    releaseKey(KEY_RIGHT); // Actually Keypad 6
+    clearKey(KEY_RIGHT); // Actually Keypad 6
     break;
   case 206:
-    releaseKey(KEYPAD_PLUS);
+    clearKey(KEYPAD_PLUS);
     break;
   case 207:
-    releaseKey(KEY_END); // Actually Keypad 1
+    clearKey(KEY_END); // Actually Keypad 1
     break;
   case 208:
-    releaseKey(KEY_DOWN); // Actually Keypad 2
+    clearKey(KEY_DOWN); // Actually Keypad 2
     break;
   case 209:
-    releaseKey(KEY_PAGE_DOWN); // Actually Keypad 3
+    clearKey(KEY_PAGE_DOWN); // Actually Keypad 3
     break;
   case 210:
     modKeyRel(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
     break;
   case 211:
-    releaseKey(KEY_DELETE); // actually Keypad Period
+    clearKey(KEY_DELETE); // actually Keypad Period
     break;
 
     /////////SORRY, I ONLY IMPLEMENTED MODEL F XT 83 KEY SUPPORT/////////////
