@@ -18,6 +18,12 @@
 
 #include <EEPROM.h>
 
+// Using Keyboard HID volume codes so we can use it in the low layer set_key
+// communication
+const int HID_KEY_MUTE = 0x7f;
+const int HID_KEY_VOLUMEUP = 0x80;
+const int HID_KEY_VOLUMEDOWN = 0x81;
+
 // I/O pins used
 const int CLK_Pin = 2;   // Feel free to make this any unused digital pin (must be 5v tolerant!)
 const int DATA_Pin = 3;  // Feel free to make this any unused digital pin (must be 5v tolerant!)
@@ -402,35 +408,36 @@ void handleKeyEvent(int value)
     setOpenKey(KEY_F2);
     break;
   case 61:
-    setOpenKey(KEY_F3);
+    // This causes Brightness Down on macOS
+    setOpenKey(KEY_SCROLL_LOCK);
     break;
   case 62:
-    setOpenKey(KEY_F4);
+    // This causes Brightness Up on macOS
+    setOpenKey(KEY_PAUSE);
     break;
   case 63:
-    setOpenKey(KEY_F5);
+    Keyboard.press(KEY_MEDIA_PLAY_PAUSE);
     break;
   case 64:
-    setOpenKey(KEY_F6);
+    setOpenKey(HID_KEY_MUTE);
     break;
   case 65:
-    setOpenKey(KEY_F7);
+    Keyboard.press(KEY_MEDIA_REWIND);
     break;
   case 66:
-    setOpenKey(KEY_F8);
+    Keyboard.press(KEY_MEDIA_FAST_FORWARD);
     break;
   case 67:
-    setOpenKey(KEY_F9);
+    setOpenKey(HID_KEY_VOLUMEDOWN);
     break;
   case 68:
-    setOpenKey(KEY_F10);
+    setOpenKey(HID_KEY_VOLUMEUP);
     break;
   case 69:
     setOpenKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
-  case 70:
+  case 70: // Scroll Lock
     buzzNumber(keyPresses);
-    setOpenKey(KEY_SCROLL_LOCK);
     break;
   case 71:
     setOpenKey(KEY_HOME); // actually Keypad 7
@@ -655,34 +662,33 @@ void handleKeyEvent(int value)
     clearKey(KEY_F2);
     break;
   case 189:
-    clearKey(KEY_F3);
+    clearKey(KEY_SCROLL_LOCK);
     break;
   case 190:
-    clearKey(KEY_F4);
+    clearKey(KEY_PAUSE);
     break;
   case 191:
-    clearKey(KEY_F5);
+    Keyboard.release(KEY_MEDIA_PLAY_PAUSE);
     break;
   case 192:
-    clearKey(KEY_F6);
+    clearKey(HID_KEY_MUTE);
     break;
   case 193:
-    clearKey(KEY_F7);
+    Keyboard.release(KEY_MEDIA_REWIND);
     break;
   case 194:
-    clearKey(KEY_F8);
+    Keyboard.release(KEY_MEDIA_FAST_FORWARD);
     break;
   case 195:
-    clearKey(KEY_F9);
+    clearKey(HID_KEY_VOLUMEDOWN);
     break;
   case 196:
-    clearKey(KEY_F10);
+    clearKey(HID_KEY_VOLUMEUP);
     break;
   case 197:
     clearKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
-  case 198:
-    clearKey(KEY_SCROLL_LOCK);
+  case 198: // Scroll Lock
     break;
   case 199:
     clearKey(KEY_HOME); // Actually Keypad 7
