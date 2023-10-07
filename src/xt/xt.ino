@@ -43,13 +43,13 @@ const int KEYPRESSES_ADDRESS = 0;                            // EEPROM address t
 const int SAVES_ADDRESS = KEYPRESSES_ADDRESS + sizeof(long); // EEPROM address to write the saves data to.
 
 // variables utilized in main loop for reading data
-int cycleReadYet = 0; // was data read for this cycle?
-int scanCode = 0;     // Raw XT scancode
-int lastScanCode = 0; // Used to ignore internal key repeating
-int numBits = 0;      // How many bits of the scancode have been read?
-int sigStart = 0;     // Used to bypass the first clock cycle of a scancode
-int temp = 0;         // used to bitshift the read bit
-int readCode = 0;     // 1 means we're being sent a scancode
+int cycleReadYet = 0;           // was data read for this cycle?
+unsigned char scanCode = 0;     // Raw XT scancode
+unsigned char lastScanCode = 0; // Used to ignore internal key repeating
+int numBits = 0;                // How many bits of the scancode have been read?
+int sigStart = 0;               // Used to bypass the first clock cycle of a scancode
+int temp = 0;                   // used to bitshift the read bit
+int readCode = 0;               // 1 means we're being sent a scancode
 
 unsigned long buzzingNumber = 0;
 elapsedMillis sinceToneStop = BUZZ_INTERVAL + 1;
