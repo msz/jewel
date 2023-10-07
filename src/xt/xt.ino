@@ -41,12 +41,6 @@ const unsigned int EEPROM_WRITE_SAFETY_THRESHOLD = 60000;    // Warn after this 
 const int KEYPRESSES_ADDRESS = 0;                            // EEPROM address to write the keypresses data to.
 const int SAVES_ADDRESS = KEYPRESSES_ADDRESS + sizeof(long); // EEPROM address to write the saves data to.
 
-// Array tracks keys currently being held
-int keysHeld[6] = {0, 0, 0, 0, 0, 0}; // 6 keys max
-
-// global variables, track Ctrl, Shift, Alt, Gui (Windows), and NumLock key statuses.
-int modifiers = 0; // 1=c, 2=s, 3=sc, 4=a, 5=ac, 6=as, 7=asc, 8=g, 9=gc...
-
 // variables utilized in main loop for reading data
 int cycleReadYet = 0; // was data read for this cycle?
 int scanCode = 0;     // Raw XT scancode
