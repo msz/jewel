@@ -63,8 +63,6 @@ unsigned int saves = 0;
 
 elapsedMillis sinceLiveReport = 0;
 
-bool isPanicking = false;
-
 void setup()
 {
   Serial.begin(9600);
