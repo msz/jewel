@@ -43,13 +43,13 @@ const int KEYPRESSES_ADDRESS = 0;                            // EEPROM address t
 const int SAVES_ADDRESS = KEYPRESSES_ADDRESS + sizeof(long); // EEPROM address to write the saves data to.
 
 // variables utilized in main loop for reading data
-int cycleReadYet = 0;           // was data read for this cycle?
+bool cycleReadYet = false;      // was data read for this cycle?
 unsigned char scanCode = 0;     // Raw XT scancode
 unsigned char lastScanCode = 0; // Used to ignore internal key repeating
 int numBits = 0;                // How many bits of the scancode have been read?
 int sigStart = 0;               // Used to bypass the first clock cycle of a scancode
 int temp = 0;                   // used to bitshift the read bit
-int readCode = 0;               // 1 means we're being sent a scancode
+bool readCode = false;          // 1 means we're being sent a scancode
 
 unsigned long buzzingNumber = 0;
 elapsedMillis sinceToneStop = BUZZ_INTERVAL + 1;
@@ -785,9 +785,9 @@ void loop()
 {
   // Serial.printf("%d\n", digitalRead(CLK_Pin));
   // This catches a LOW in clock, signaling the start of a scan code
-  if (readCode == 0 && digitalRead(CLK_Pin) == 0)
+  if (!readCode && digitalRead(CLK_Pin) == 0)
   {
-    readCode = 1;
+    readCode = true;
   }
 
   // Note how numbits must be 9 instead of 8.
@@ -808,17 +808,17 @@ void loop()
     sigStart = 0;
     scanCode = 0;
     numBits = 0;
-    readCode = 0;
+    readCode = false;
   }
 
   // since the code detects the rising edge of clock,
   // we use readCode to filter out the fact that
   // clock rests HIGH.
-  if (readCode == 1)
+  if (readCode)
   {
     // On each rising edge, get the respective DATA.
     // cycleReadYet prevents multiple reads on the same cycle.
-    if (digitalRead(CLK_Pin) == 1 && cycleReadYet == 0)
+    if (digitalRead(CLK_Pin) == 1 && !cycleReadYet)
     {
 
       // The first clock pulse signals the start of a scan code.
@@ -835,13 +835,13 @@ void loop()
         scanCode = scanCode | temp;
         numBits++;
       }
-      cycleReadYet = 1;
+      cycleReadYet = true;
     }
     // once the clock drops again, we can reset cycleReadYet
     // since DATA is only read when clock is HIGH.
     if (digitalRead(CLK_Pin) == 0)
     {
-      cycleReadYet = 0;
+      cycleReadYet = false;
     }
   }
 
