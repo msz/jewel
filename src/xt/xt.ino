@@ -19,6 +19,31 @@
 #include <EEPROM.h>
 #include <stdbool.h>
 
+// Define BYTE() to be able to use binary notation
+#define B_0000 0
+#define B_0001 1
+#define B_0010 2
+#define B_0011 3
+#define B_0100 4
+#define B_0101 5
+#define B_0110 6
+#define B_0111 7
+#define B_1000 8
+#define B_1001 9
+#define B_1010 a
+#define B_1011 b
+#define B_1100 c
+#define B_1101 d
+#define B_1110 e
+#define B_1111 f
+#define _B2H(bits) B_##bits
+#define B2H(bits) _B2H(bits)
+#define _HEX(n) 0x##n
+#define HHEX(n) _HEX(n)
+#define _CCAT(a, b) a##b
+#define CCAT(a, b) _CCAT(a, b)
+#define BYTE(a, b) HHEX(CCAT(B2H(a), B2H(b)))
+
 // Using Keyboard HID volume codes so we can use it in the low layer set_key
 // communication
 const int HID_KEY_MUTE = 0x7f;
@@ -114,665 +139,666 @@ void handleKeyEvent(int value)
   {
 
   // Esc
-  case 1:
+  case BYTE(0000, 0001):
     Keyboard.press(KEY_ESC);
     break;
-  case 129:
+  case BYTE(1000, 0001):
     Keyboard.release(KEY_ESC);
     break;
 
   // 1
-  case 2:
+  case BYTE(0000, 0010):
     Keyboard.press(KEY_1);
     break;
-  case 130:
+  case BYTE(1000, 0010):
     Keyboard.release(KEY_1);
     break;
 
   // 2
-  case 3:
+  case BYTE(0000, 0011):
     Keyboard.press(KEY_2);
     break;
-  case 131:
+  case BYTE(1000, 0011):
     Keyboard.release(KEY_2);
     break;
 
   // 3
-  case 4:
+  case BYTE(0000, 0100):
     Keyboard.press(KEY_3);
     break;
-  case 132:
+  case BYTE(1000, 0100):
     Keyboard.release(KEY_3);
     break;
 
   // 4
-  case 5:
+  case BYTE(0000, 0101):
     Keyboard.press(KEY_4);
     break;
-  case 133:
+  case BYTE(1000, 0101):
     Keyboard.release(KEY_4);
     break;
 
   // 5
-  case 6:
+  case BYTE(0000, 0110):
     Keyboard.press(KEY_5);
     break;
-  case 134:
+  case BYTE(1000, 0110):
     Keyboard.release(KEY_5);
     break;
 
   // 6
-  case 7:
+  case BYTE(0000, 0111):
     Keyboard.press(KEY_6);
     break;
-  case 135:
+  case BYTE(1000, 0111):
     Keyboard.release(KEY_6);
     break;
 
   // 7
-  case 8:
+  case BYTE(0000, 1000):
     Keyboard.press(KEY_7);
     break;
-  case 136:
+  case BYTE(1000, 1000):
     Keyboard.release(KEY_7);
     break;
 
   // 8
-  case 9:
+  case BYTE(0000, 1001):
     Keyboard.press(KEY_8);
     break;
-  case 137:
+  case BYTE(1000, 1001):
     Keyboard.release(KEY_8);
     break;
 
   // 9
-  case 10:
+  case BYTE(0000, 1010):
     Keyboard.press(KEY_9);
     break;
-  case 138:
+  case BYTE(1000, 1010):
     Keyboard.release(KEY_9);
     break;
 
   // 0
-  case 11:
+  case BYTE(0000, 1011):
     Keyboard.press(KEY_0);
     break;
-  case 139:
+  case BYTE(1000, 1011):
     Keyboard.release(KEY_0);
     break;
 
   // -
-  case 12:
+  case BYTE(0000, 1100):
     Keyboard.press(KEY_MINUS);
     break;
-  case 140:
+  case BYTE(1000, 1100):
     Keyboard.release(KEY_MINUS);
     break;
 
   // =
-  case 13:
+  case BYTE(0000, 1101):
     Keyboard.press(KEY_EQUAL);
     break;
-  case 141:
+  case BYTE(1000, 1101):
     Keyboard.release(KEY_EQUAL);
     break;
 
   // Backspace
-  case 14:
+  case BYTE(0000, 1110):
     Keyboard.press(KEY_BACKSPACE);
     break;
-  case 142:
+  case BYTE(1000, 1110):
     Keyboard.release(KEY_BACKSPACE);
     break;
 
   // Tab
-  case 15:
+  case BYTE(0000, 1111):
     Keyboard.press(KEY_TAB);
     break;
-  case 143:
+  case BYTE(1000, 1111):
     Keyboard.release(KEY_TAB);
     break;
 
   // Q
-  case 16:
+  case BYTE(0001, 0000):
     Keyboard.press(KEY_Q);
     break;
-  case 144:
+  case BYTE(1001, 0000):
     Keyboard.release(KEY_Q);
     break;
 
   // W
-  case 17:
+  case BYTE(0001, 0001):
     Keyboard.press(KEY_W);
     break;
-  case 145:
+  case BYTE(1001, 0001):
     Keyboard.release(KEY_W);
     break;
 
   // E
-  case 18:
+  case BYTE(0001, 0010):
     Keyboard.press(KEY_E);
     break;
-  case 146:
+  case BYTE(1001, 0010):
     Keyboard.release(KEY_E);
     break;
 
   // R
-  case 19:
+  case BYTE(0001, 0011):
     Keyboard.press(KEY_R);
     break;
-  case 147:
+  case BYTE(1001, 0011):
     Keyboard.release(KEY_R);
     break;
 
   // T
-  case 20:
+  case BYTE(0001, 0100):
     Keyboard.press(KEY_T);
     break;
-  case 148:
+  case BYTE(1001, 0100):
     Keyboard.release(KEY_T);
     break;
 
   // Y
-  case 21:
+  case BYTE(0001, 0101):
     Keyboard.press(KEY_Y);
     break;
-  case 149:
+  case BYTE(1001, 0101):
     Keyboard.release(KEY_Y);
     break;
 
   // U
-  case 22:
+  case BYTE(0001, 0110):
     Keyboard.press(KEY_U);
     break;
-  case 150:
+  case BYTE(1001, 0110):
     Keyboard.release(KEY_U);
     break;
 
   // I
-  case 23:
+  case BYTE(0001, 0111):
     Keyboard.press(KEY_I);
     break;
-  case 151:
+  case BYTE(1001, 0111):
     Keyboard.release(KEY_I);
     break;
 
   // O
-  case 24:
+  case BYTE(0001, 1000):
     Keyboard.press(KEY_O);
     break;
-  case 152:
+  case BYTE(1001, 1000):
     Keyboard.release(KEY_O);
     break;
 
   // P
-  case 25:
+  case BYTE(0001, 1001):
     Keyboard.press(KEY_P);
     break;
-  case 153:
+  case BYTE(1001, 1001):
     Keyboard.release(KEY_P);
     break;
 
   // {
-  case 26:
+  case BYTE(0001, 1010):
     Keyboard.press(KEY_LEFT_BRACE);
     break;
-  case 154:
+  case BYTE(1001, 1010):
     Keyboard.release(KEY_LEFT_BRACE);
     break;
 
   // }
-  case 27:
+  case BYTE(0001, 1011):
     Keyboard.press(KEY_RIGHT_BRACE);
     break;
-  case 155:
+  case BYTE(1001, 1011):
     Keyboard.release(KEY_RIGHT_BRACE);
     break;
 
   // Enter
-  case 28:
+  case BYTE(0001, 1100):
     Keyboard.press(KEY_ENTER);
     break;
-  case 156:
+  case BYTE(1001, 1100):
     Keyboard.release(KEY_ENTER);
     break;
 
   // Ctrl
-  case 29:
+  case BYTE(0001, 1101):
     Keyboard.press(MODIFIERKEY_CTRL);
     break;
-  case 157:
+  case BYTE(1001, 1101):
     Keyboard.release(MODIFIERKEY_CTRL);
     break;
 
   // A
-  case 30:
+  case BYTE(0001, 1110):
     Keyboard.press(KEY_A);
     break;
-  case 158:
+  case BYTE(1001, 1110):
     Keyboard.release(KEY_A);
     break;
 
   // S
-  case 31:
+  case BYTE(0001, 1111):
     Keyboard.press(KEY_S);
     break;
-  case 159:
+  case BYTE(1001, 1111):
     Keyboard.release(KEY_S);
     break;
 
   // D
-  case 32:
+  case BYTE(0010, 0000):
     Keyboard.press(KEY_D);
     break;
-  case 160:
+  case BYTE(1010, 0000):
     Keyboard.release(KEY_D);
     break;
 
   // F
-  case 33:
+  case BYTE(0010, 0001):
     Keyboard.press(KEY_F);
     break;
-  case 161:
+  case BYTE(1010, 0001):
     Keyboard.release(KEY_F);
     break;
 
   // G
-  case 34:
+  case BYTE(0010, 0010):
     Keyboard.press(KEY_G);
     break;
-  case 162:
+  case BYTE(1010, 0010):
     Keyboard.release(KEY_G);
     break;
 
   // H
-  case 35:
+  case BYTE(0010, 0011):
     Keyboard.press(KEY_H);
     break;
-  case 163:
+  case BYTE(1010, 0011):
     Keyboard.release(KEY_H);
     break;
 
   // J
-  case 36:
+  case BYTE(0010, 0100):
     Keyboard.press(KEY_J);
     break;
-  case 164:
+  case BYTE(1010, 0100):
     Keyboard.release(KEY_J);
     break;
 
   // K
-  case 37:
+  case BYTE(0010, 0101):
     Keyboard.press(KEY_K);
     break;
-  case 165:
+  case BYTE(1010, 0101):
     Keyboard.release(KEY_K);
     break;
 
   // L
-  case 38:
+  case BYTE(0010, 0110):
     Keyboard.press(KEY_L);
     break;
-  case 166:
+  case BYTE(1010, 0110):
     Keyboard.release(KEY_L);
     break;
 
   // ;
-  case 39:
+  case BYTE(0010, 0111):
     Keyboard.press(KEY_SEMICOLON);
     break;
-  case 167:
+  case BYTE(1010, 0111):
     Keyboard.release(KEY_SEMICOLON);
     break;
 
   // '
-  case 40:
+  case BYTE(0010, 1000):
     Keyboard.press(KEY_QUOTE);
     break;
-  case 168:
+  case BYTE(1010, 1000):
     Keyboard.release(KEY_QUOTE);
     break;
 
   // Backslash (originally ~)
-  case 41:
+  case BYTE(0010, 1001):
     Keyboard.press(KEY_BACKSLASH);
     break;
-  case 169:
+  case BYTE(1010, 1001):
     Keyboard.release(KEY_BACKSLASH);
     break;
 
   // Left Shift
-  case 42:
+  case BYTE(0010, 1010):
     Keyboard.press(MODIFIERKEY_SHIFT);
     break;
-  case 170:
+  case BYTE(1010, 1010):
     Keyboard.release(MODIFIERKEY_SHIFT);
     break;
 
   // ~ (originally Backslash)
-  case 43:
+  case BYTE(0010, 1011):
     Keyboard.press(KEY_TILDE);
     break;
-  case 171:
+  case BYTE(1010, 1011):
     Keyboard.release(KEY_TILDE);
     break;
 
   // Z
-  case 44:
+  case BYTE(0010, 1100):
     Keyboard.press(KEY_Z);
     break;
-  case 172:
+  case BYTE(1010, 1100):
     Keyboard.release(KEY_Z);
     break;
 
   // X
-  case 45:
+  case BYTE(0010, 1101):
     Keyboard.press(KEY_X);
     break;
-  case 173:
+  case BYTE(1010, 1101):
     Keyboard.release(KEY_X);
     break;
 
   // C
-  case 46:
+  case BYTE(0010, 1110):
     Keyboard.press(KEY_C);
     break;
-  case 174:
+  case BYTE(1010, 1110):
     Keyboard.release(KEY_C);
     break;
 
   // V
-  case 47:
+  case BYTE(0010, 1111):
     Keyboard.press(KEY_V);
     break;
-  case 175:
+  case BYTE(1010, 1111):
     Keyboard.release(KEY_V);
     break;
 
   // B
-  case 48:
+  case BYTE(0011, 0000):
     Keyboard.press(KEY_B);
     break;
-  case 176:
+  case BYTE(1011, 0000):
     Keyboard.release(KEY_B);
     break;
 
   // N
-  case 49:
+  case BYTE(0011, 0001):
     Keyboard.press(KEY_N);
     break;
-  case 177:
+  case BYTE(1011, 0001):
     Keyboard.release(KEY_N);
     break;
 
   // M
-  case 50:
+  case BYTE(0011, 0010):
     Keyboard.press(KEY_M);
     break;
-  case 178:
+  case BYTE(1011, 0010):
     Keyboard.release(KEY_M);
     break;
 
   // ,
-  case 51:
+  case BYTE(0011, 0011):
     Keyboard.press(KEY_COMMA);
     break;
-  case 179:
+  case BYTE(1011, 0011):
     Keyboard.release(KEY_COMMA);
     break;
 
   // .
-  case 52:
+  case BYTE(0011, 0100):
     Keyboard.press(KEY_PERIOD);
     break;
-  case 180:
+  case BYTE(1011, 0100):
     Keyboard.release(KEY_PERIOD);
     break;
 
   // /
-  case 53:
+  case BYTE(0011, 0101):
     Keyboard.press(KEY_SLASH);
     break;
-  case 181:
+  case BYTE(1011, 0101):
     Keyboard.release(KEY_SLASH);
     break;
 
   // Right Shift
-  case 54:
+  case BYTE(0011, 0110):
     Keyboard.press(MODIFIERKEY_RIGHT_SHIFT);
     break;
-  case 182:
+  case BYTE(1011, 0110):
     Keyboard.release(MODIFIERKEY_RIGHT_SHIFT);
     break;
 
   // PANIC (originally *)
-  case 55:
+  case BYTE(0011, 0111):
     Keyboard.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     break;
-  case 183:
+  case BYTE(1011, 0111):
     break;
 
   // Alt
-  case 56:
+  case BYTE(0011, 1000):
     Keyboard.press(MODIFIERKEY_GUI);
     break;
-  case 184:
+  case BYTE(1011, 1000):
     Keyboard.release(MODIFIERKEY_GUI);
     break;
 
   // Space
-  case 57:
+  case BYTE(0011, 1001):
     Keyboard.press(KEY_SPACE);
     break;
-  case 185:
+  case BYTE(1011, 1001):
     Keyboard.release(KEY_SPACE);
     break;
 
   // Caps Lock
-  case 58:
+  case BYTE(0011, 1010):
     Keyboard.press(MODIFIERKEY_RIGHT_GUI);
     break;
-  case 186:
+  case BYTE(1011, 1010):
     Keyboard.release(MODIFIERKEY_RIGHT_GUI);
     break;
 
   // Empty 1 (function block top left) (originally F1)
-  case 59:
+  case BYTE(0011, 1011):
     Keyboard.press(KEY_F1);
     break;
-  case 187:
+  case BYTE(1011, 1011):
     Keyboard.release(KEY_F1);
     break;
 
   // Empty 2 (function block top right) (originally F2)
-  case 60:
+  case BYTE(0011, 1100):
     Keyboard.press(KEY_F2);
     break;
-  case 188:
+  case BYTE(1011, 1100):
     Keyboard.release(KEY_F2);
     break;
 
   // Brightness Down (originally F3)
-  case 61:
+  case BYTE(0011, 1101):
     // This causes Brightness Down on macOS
     Keyboard.press(KEY_SCROLL_LOCK);
     break;
-  case 189:
+  case BYTE(1011, 1101):
     Keyboard.release(KEY_SCROLL_LOCK);
     break;
 
   // Brightness Up (originally F4)
-  case 62:
+  case BYTE(0011, 1110):
     // This causes Brightness Up on macOS
     Keyboard.press(KEY_PAUSE);
     break;
-  case 190:
+  case BYTE(1011, 1110):
     Keyboard.release(KEY_PAUSE);
     break;
 
   // Play Pause (originally F5)
-  case 63:
+  case BYTE(0011, 1111):
     Keyboard.press(KEY_MEDIA_PLAY_PAUSE);
     break;
-  case 191:
+  case BYTE(1011, 1111):
     Keyboard.release(KEY_MEDIA_PLAY_PAUSE);
     break;
 
   // Mute (originally F6)
-  case 64:
-    Keyboard.press(HID_KEY_MUTE);
+  case BYTE(0100, 0000):
+    Keyboard.press(KEY_MEDIA_MUTE);
     break;
-  case 192:
-    Keyboard.release(HID_KEY_MUTE);
+  case BYTE(1100, 0000):
+    Keyboard.release(KEY_MEDIA_MUTE);
     break;
 
   // Rewind (originally F7)
-  case 65:
+  case BYTE(0100, 0001):
     Keyboard.press(KEY_MEDIA_REWIND);
     break;
-  case 193:
+  case BYTE(1100, 0001):
     Keyboard.release(KEY_MEDIA_REWIND);
     break;
 
   // Fast Forward (originally F8)
-  case 66:
+  case BYTE(0100, 0010):
     Keyboard.press(KEY_MEDIA_FAST_FORWARD);
     break;
-  case 194:
+  case BYTE(1100, 0010):
     Keyboard.release(KEY_MEDIA_FAST_FORWARD);
     break;
 
   // Volume Down (originally F9)
-  case 67:
-    Keyboard.press(HID_KEY_VOLUMEDOWN);
+  case BYTE(0100, 0011):
+    Keyboard.press(KEY_MEDIA_VOLUME_DEC);
     break;
-  case 195:
-    Keyboard.release(HID_KEY_VOLUMEDOWN);
+  case BYTE(1100, 0011):
+    Keyboard.release(KEY_MEDIA_VOLUME_DEC);
     break;
 
   // Volume Up (originally F10)
-  case 68:
-    Keyboard.press(HID_KEY_VOLUMEUP);
+  case BYTE(0100, 0100):
+    Keyboard.press(KEY_MEDIA_VOLUME_INC);
     break;
-  case 196:
-    Keyboard.release(HID_KEY_VOLUMEUP);
+  case BYTE(1100, 0100):
+    Keyboard.release(KEY_MEDIA_VOLUME_INC);
     break;
 
   // Num Lock
-  case 69:
+  case BYTE(0100, 0101):
     Keyboard.press(KEY_NUM_LOCK);
     break;
-  case 197:
+  case BYTE(1100, 0101):
     Keyboard.release(KEY_NUM_LOCK);
     break;
 
   // Scroll Lock
-  case 70:
+  case BYTE(0100, 0110):
     buzzNumber(keyPresses);
     break;
-  case 198:
+  case BYTE(1100, 0110):
     break;
 
   // Keypad 7
-  case 71:
+  case BYTE(0100, 0111):
     Keyboard.press(KEY_HOME);
     break;
-  case 199:
+  case BYTE(1100, 0111):
     Keyboard.release(KEY_HOME);
     break;
 
   // Keypad 8
-  case 72:
+  case BYTE(0100, 1000):
     Keyboard.press(KEY_UP);
     break;
-  case 200:
+  case BYTE(1100, 1000):
     Keyboard.release(KEY_UP);
     break;
 
   // Keypad 9
-  case 73:
+  case BYTE(0100, 1001):
     Keyboard.press(KEY_PAGE_UP);
     break;
-  case 201:
+  case BYTE(1100, 1001):
     Keyboard.release(KEY_PAGE_UP);
     break;
 
   // Keypad -
-  case 74:
+  case BYTE(0100, 1010):
     Keyboard.press(KEYPAD_MINUS);
     break;
-  case 202:
+  case BYTE(1100, 1010):
     Keyboard.release(KEYPAD_MINUS);
     break;
 
   // Keypad 4
-  case 75:
+  case BYTE(0100, 1011):
     Keyboard.press(KEY_LEFT);
     break;
-  case 203:
+  case BYTE(1100, 1011):
     Keyboard.release(KEY_LEFT);
     break;
 
   // Keypad 5
-  case 76:
+  case BYTE(0100, 1100):
     Keyboard.press(KEY_DOWN);
     break;
-  case 204:
+  case BYTE(1100, 1100):
     Keyboard.release(KEY_DOWN);
     break;
 
   // Keypad 6
-  case 77:
+  case BYTE(0100, 1101):
     Keyboard.press(KEY_RIGHT);
     break;
-  case 205:
+  case BYTE(1100, 1101):
     Keyboard.release(KEY_RIGHT);
     break;
 
   // Keypad +
-  case 78:
+  case BYTE(0100, 1110):
     Keyboard.press(KEYPAD_PLUS);
     break;
-  case 206:
+  case BYTE(1100, 1110):
     Keyboard.release(KEYPAD_PLUS);
     break;
 
   // Keypad 1
-  case 79:
+  case BYTE(0100, 1111):
     Keyboard.press(KEY_END);
     break;
-  case 207:
+  case BYTE(1100, 1111):
     Keyboard.release(KEY_END);
     break;
 
   // Keypad 2
-  case 80:
+  case BYTE(0101, 0000):
     Keyboard.press(KEY_DOWN);
     break;
-  case 208:
+  case BYTE(1101, 0000):
     Keyboard.release(KEY_DOWN);
     break;
 
   // Keypad 3
-  case 81:
+  case BYTE(0101, 0001):
     Keyboard.press(KEY_PAGE_DOWN);
     break;
-  case 209:
+  case BYTE(1101, 0001):
     Keyboard.release(KEY_PAGE_DOWN);
+    break;
 
   // Keypad 0
-  case 82:
+  case BYTE(0101, 0010):
     Keyboard.press(MODIFIERKEY_RIGHT_ALT);
     break;
-  case 210:
+  case BYTE(1101, 0010):
     Keyboard.release(MODIFIERKEY_RIGHT_ALT);
     break;
 
   // Keypad .
-  case 83:
+  case BYTE(0101, 0011):
     Keyboard.press(KEY_DELETE);
     break;
-  case 211:
+  case BYTE(1101, 0011):
     Keyboard.release(KEY_DELETE);
     break;
 
