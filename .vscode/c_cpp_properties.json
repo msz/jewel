@@ -34,7 +34,7 @@
                 "ARDUINO=10607",
                 "ARDUINO_TEENSY32",
                 "F_CPU=72000000",
-                "USB_KEYBOARDONLY",
+                "USB_SERIAL_HID",
                 "LAYOUT_US_ENGLISH",
                 "__DBL_MIN_EXP__=(-1021)",
                 "__HQ_FBIT__=15",
