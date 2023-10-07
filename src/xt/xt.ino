@@ -117,366 +117,488 @@ void handleKeyEvent(int value)
 {
   switch (value)
   {
+
+  // Esc
   case 1:
     Keyboard.press(KEY_ESC);
     break;
   case 129:
     Keyboard.release(KEY_ESC);
     break;
+
+  // 1
   case 2:
     Keyboard.press(KEY_1);
     break;
   case 130:
     Keyboard.release(KEY_1);
     break;
+
+  // 2
   case 3:
     Keyboard.press(KEY_2);
     break;
   case 131:
     Keyboard.release(KEY_2);
     break;
+
+  // 3
   case 4:
     Keyboard.press(KEY_3);
     break;
   case 132:
     Keyboard.release(KEY_3);
     break;
+
+  // 4
   case 5:
     Keyboard.press(KEY_4);
     break;
   case 133:
     Keyboard.release(KEY_4);
     break;
+
+  // 5
   case 6:
     Keyboard.press(KEY_5);
     break;
   case 134:
     Keyboard.release(KEY_5);
     break;
+
+  // 6
   case 7:
     Keyboard.press(KEY_6);
     break;
   case 135:
     Keyboard.release(KEY_6);
     break;
+
+  // 7
   case 8:
     Keyboard.press(KEY_7);
     break;
   case 136:
     Keyboard.release(KEY_7);
     break;
+
+  // 8
   case 9:
     Keyboard.press(KEY_8);
     break;
   case 137:
     Keyboard.release(KEY_8);
     break;
+
+  // 9
   case 10:
     Keyboard.press(KEY_9);
     break;
   case 138:
     Keyboard.release(KEY_9);
     break;
+
+  // 0
   case 11:
     Keyboard.press(KEY_0);
     break;
   case 139:
     Keyboard.release(KEY_0);
     break;
+
+  // -
   case 12:
     Keyboard.press(KEY_MINUS);
     break;
   case 140:
     Keyboard.release(KEY_MINUS);
     break;
+
+  // =
   case 13:
     Keyboard.press(KEY_EQUAL);
     break;
   case 141:
     Keyboard.release(KEY_EQUAL);
     break;
+
+  // Backspace
   case 14:
     Keyboard.press(KEY_BACKSPACE);
     break;
   case 142:
     Keyboard.release(KEY_BACKSPACE);
     break;
+
+  // Tab
   case 15:
     Keyboard.press(KEY_TAB);
     break;
   case 143:
     Keyboard.release(KEY_TAB);
     break;
+
+  // Q
   case 16:
     Keyboard.press(KEY_Q);
     break;
   case 144:
     Keyboard.release(KEY_Q);
     break;
+
+  // W
   case 17:
     Keyboard.press(KEY_W);
     break;
   case 145:
     Keyboard.release(KEY_W);
     break;
+
+  // E
   case 18:
     Keyboard.press(KEY_E);
     break;
   case 146:
     Keyboard.release(KEY_E);
     break;
+
+  // R
   case 19:
     Keyboard.press(KEY_R);
     break;
   case 147:
     Keyboard.release(KEY_R);
     break;
+
+  // T
   case 20:
     Keyboard.press(KEY_T);
     break;
   case 148:
     Keyboard.release(KEY_T);
     break;
+
+  // Y
   case 21:
     Keyboard.press(KEY_Y);
     break;
   case 149:
     Keyboard.release(KEY_Y);
     break;
+
+  // U
   case 22:
     Keyboard.press(KEY_U);
     break;
   case 150:
     Keyboard.release(KEY_U);
     break;
+
+  // I
   case 23:
     Keyboard.press(KEY_I);
     break;
   case 151:
     Keyboard.release(KEY_I);
     break;
+
+  // O
   case 24:
     Keyboard.press(KEY_O);
     break;
   case 152:
     Keyboard.release(KEY_O);
     break;
+
+  // P
   case 25:
     Keyboard.press(KEY_P);
     break;
   case 153:
     Keyboard.release(KEY_P);
     break;
+
+  // {
   case 26:
     Keyboard.press(KEY_LEFT_BRACE);
     break;
   case 154:
     Keyboard.release(KEY_LEFT_BRACE);
     break;
+
+  // }
   case 27:
     Keyboard.press(KEY_RIGHT_BRACE);
     break;
   case 155:
     Keyboard.release(KEY_RIGHT_BRACE);
     break;
+
+  // Enter
   case 28:
-    Keyboard.press(KEY_ENTER); // technically KEYPAD_ENTER
+    Keyboard.press(KEY_ENTER);
     break;
   case 156:
-    Keyboard.release(KEY_ENTER); // This is technically KEYPAD_ENTER
+    Keyboard.release(KEY_ENTER);
     break;
+
+  // Ctrl
   case 29:
-    Keyboard.press(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
+    Keyboard.press(MODIFIERKEY_CTRL);
     break;
   case 157:
-    Keyboard.release(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
+    Keyboard.release(MODIFIERKEY_CTRL);
     break;
+
+  // A
   case 30:
     Keyboard.press(KEY_A);
     break;
   case 158:
     Keyboard.release(KEY_A);
     break;
+
+  // S
   case 31:
     Keyboard.press(KEY_S);
     break;
   case 159:
     Keyboard.release(KEY_S);
     break;
+
+  // D
   case 32:
     Keyboard.press(KEY_D);
     break;
   case 160:
     Keyboard.release(KEY_D);
     break;
+
+  // F
   case 33:
     Keyboard.press(KEY_F);
     break;
   case 161:
     Keyboard.release(KEY_F);
     break;
+
+  // G
   case 34:
     Keyboard.press(KEY_G);
     break;
   case 162:
     Keyboard.release(KEY_G);
     break;
+
+  // H
   case 35:
     Keyboard.press(KEY_H);
     break;
   case 163:
     Keyboard.release(KEY_H);
     break;
+
+  // J
   case 36:
     Keyboard.press(KEY_J);
     break;
   case 164:
     Keyboard.release(KEY_J);
     break;
+
+  // K
   case 37:
     Keyboard.press(KEY_K);
     break;
   case 165:
     Keyboard.release(KEY_K);
     break;
+
+  // L
   case 38:
     Keyboard.press(KEY_L);
     break;
   case 166:
     Keyboard.release(KEY_L);
     break;
+
+  // ;
   case 39:
     Keyboard.press(KEY_SEMICOLON);
     break;
   case 167:
     Keyboard.release(KEY_SEMICOLON);
     break;
+
+  // '
   case 40:
     Keyboard.press(KEY_QUOTE);
     break;
   case 168:
     Keyboard.release(KEY_QUOTE);
     break;
+
+  // Backslash (originally ~)
   case 41:
-    Keyboard.press(KEY_BACKSLASH); // Actually Tilde
+    Keyboard.press(KEY_BACKSLASH);
     break;
   case 169:
-    Keyboard.release(KEY_BACKSLASH); // Actually Tilde
+    Keyboard.release(KEY_BACKSLASH);
     break;
+
+  // Left Shift
   case 42:
-    Keyboard.press(MODIFIERKEY_SHIFT); // Left shift
+    Keyboard.press(MODIFIERKEY_SHIFT);
     break;
   case 170:
-    Keyboard.release(MODIFIERKEY_SHIFT); // Left shift
+    Keyboard.release(MODIFIERKEY_SHIFT);
     break;
+
+  // ~ (originally Backslash)
   case 43:
-    Keyboard.press(KEY_TILDE); // Actually Backslash
+    Keyboard.press(KEY_TILDE);
     break;
   case 171:
-    Keyboard.release(KEY_TILDE); // Actually Backslash
+    Keyboard.release(KEY_TILDE);
     break;
+
+  // Z
   case 44:
     Keyboard.press(KEY_Z);
     break;
   case 172:
     Keyboard.release(KEY_Z);
     break;
+
+  // X
   case 45:
     Keyboard.press(KEY_X);
     break;
   case 173:
     Keyboard.release(KEY_X);
     break;
+
+  // C
   case 46:
     Keyboard.press(KEY_C);
     break;
   case 174:
     Keyboard.release(KEY_C);
     break;
+
+  // V
   case 47:
     Keyboard.press(KEY_V);
     break;
   case 175:
     Keyboard.release(KEY_V);
     break;
+
+  // B
   case 48:
     Keyboard.press(KEY_B);
     break;
   case 176:
     Keyboard.release(KEY_B);
     break;
+
+  // N
   case 49:
     Keyboard.press(KEY_N);
     break;
   case 177:
     Keyboard.release(KEY_N);
     break;
+
+  // M
   case 50:
     Keyboard.press(KEY_M);
     break;
   case 178:
     Keyboard.release(KEY_M);
     break;
+
+  // ,
   case 51:
     Keyboard.press(KEY_COMMA);
     break;
   case 179:
     Keyboard.release(KEY_COMMA);
     break;
+
+  // .
   case 52:
     Keyboard.press(KEY_PERIOD);
     break;
   case 180:
     Keyboard.release(KEY_PERIOD);
     break;
+
+  // /
   case 53:
     Keyboard.press(KEY_SLASH);
     break;
   case 181:
     Keyboard.release(KEY_SLASH);
     break;
+
+  // Right Shift
   case 54:
     Keyboard.press(MODIFIERKEY_RIGHT_SHIFT);
     break;
   case 182:
     Keyboard.release(MODIFIERKEY_RIGHT_SHIFT);
     break;
+
+  // PANIC (originally *)
   case 55:
-    Keyboard.press(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    Keyboard.press(KEYPAD_ASTERIX);
     break;
   case 183:
-    Keyboard.release(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    Keyboard.release(KEYPAD_ASTERIX);
     break;
+
+  // Alt
   case 56:
-    Keyboard.press(MODIFIERKEY_GUI); // actually the Alt key
+    Keyboard.press(MODIFIERKEY_GUI);
     break;
   case 184:
-    Keyboard.release(MODIFIERKEY_GUI); // Actually the Alt key
+    Keyboard.release(MODIFIERKEY_GUI);
     break;
+
+  // Space
   case 57:
     Keyboard.press(KEY_SPACE);
     break;
   case 185:
     Keyboard.release(KEY_SPACE);
     break;
+
+  // Caps Lock
   case 58:
-    Keyboard.press(MODIFIERKEY_RIGHT_GUI); // actually the Caps Lock key
+    Keyboard.press(MODIFIERKEY_RIGHT_GUI);
     break;
   case 186:
-    Keyboard.release(MODIFIERKEY_RIGHT_GUI); // Actually the Caps Lock key
+    Keyboard.release(MODIFIERKEY_RIGHT_GUI);
     break;
+
+  // Empty 1 (function block top left) (originally F1)
   case 59:
     Keyboard.press(KEY_F1);
     break;
   case 187:
     Keyboard.release(KEY_F1);
     break;
+
+  // Empty 2 (function block top right) (originally F2)
   case 60:
     Keyboard.press(KEY_F2);
     break;
   case 188:
     Keyboard.release(KEY_F2);
     break;
+
+  // Brightness Down (originally F3)
   case 61:
     // This causes Brightness Down on macOS
     Keyboard.press(KEY_SCROLL_LOCK);
@@ -484,6 +606,8 @@ void handleKeyEvent(int value)
   case 189:
     Keyboard.release(KEY_SCROLL_LOCK);
     break;
+
+  // Brightness Up (originally F4)
   case 62:
     // This causes Brightness Up on macOS
     Keyboard.press(KEY_PAUSE);
@@ -491,130 +615,171 @@ void handleKeyEvent(int value)
   case 190:
     Keyboard.release(KEY_PAUSE);
     break;
+
+  // Play Pause (originally F5)
   case 63:
     Keyboard.press(KEY_MEDIA_PLAY_PAUSE);
     break;
   case 191:
     Keyboard.release(KEY_MEDIA_PLAY_PAUSE);
     break;
+
+  // Mute (originally F6)
   case 64:
     Keyboard.press(HID_KEY_MUTE);
     break;
   case 192:
     Keyboard.release(HID_KEY_MUTE);
     break;
+
+  // Rewind (originally F7)
   case 65:
     Keyboard.press(KEY_MEDIA_REWIND);
     break;
   case 193:
     Keyboard.release(KEY_MEDIA_REWIND);
     break;
+
+  // Fast Forward (originally F8)
   case 66:
     Keyboard.press(KEY_MEDIA_FAST_FORWARD);
     break;
   case 194:
     Keyboard.release(KEY_MEDIA_FAST_FORWARD);
     break;
+
+  // Volume Down (originally F9)
   case 67:
     Keyboard.press(HID_KEY_VOLUMEDOWN);
     break;
   case 195:
     Keyboard.release(HID_KEY_VOLUMEDOWN);
     break;
+
+  // Volume Up (originally F10)
   case 68:
     Keyboard.press(HID_KEY_VOLUMEUP);
     break;
   case 196:
     Keyboard.release(HID_KEY_VOLUMEUP);
     break;
+
+  // Num Lock
   case 69:
-    Keyboard.press(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    Keyboard.press(KEY_NUM_LOCK);
     break;
   case 197:
-    Keyboard.release(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    Keyboard.release(KEY_NUM_LOCK);
     break;
-  case 70: // Scroll Lock
+
+  // Scroll Lock
+  case 70:
     buzzNumber(keyPresses);
     break;
-  case 198: // Scroll Lock
+  case 198:
     break;
+
+  // Keypad 7
   case 71:
-    Keyboard.press(KEY_HOME); // actually Keypad 7
+    Keyboard.press(KEY_HOME);
     break;
   case 199:
-    Keyboard.release(KEY_HOME); // Actually Keypad 7
+    Keyboard.release(KEY_HOME);
     break;
+
+  // Keypad 8
   case 72:
-    Keyboard.press(KEY_UP); // actually Keypad 8
+    Keyboard.press(KEY_UP);
     break;
   case 200:
-    Keyboard.release(KEY_UP); // Actually Keypad 8
+    Keyboard.release(KEY_UP);
     break;
+
+  // Keypad 9
   case 73:
-    Keyboard.press(KEY_PAGE_UP); // actually Keypad 9
+    Keyboard.press(KEY_PAGE_UP);
     break;
   case 201:
-    Keyboard.release(KEY_PAGE_UP); // Actually Keypad 9
+    Keyboard.release(KEY_PAGE_UP);
     break;
+
+  // Keypad -
   case 74:
     Keyboard.press(KEYPAD_MINUS);
     break;
   case 202:
     Keyboard.release(KEYPAD_MINUS);
     break;
+
+  // Keypad 4
   case 75:
-    Keyboard.press(KEY_LEFT); // Actually Keypad 4
+    Keyboard.press(KEY_LEFT);
     break;
   case 203:
-    Keyboard.release(KEY_LEFT); // Actually Keypad 4
+    Keyboard.release(KEY_LEFT);
     break;
+
+  // Keypad 5
   case 76:
-    Keyboard.press(KEY_DOWN); // Actually Keypad 5
+    Keyboard.press(KEY_DOWN);
     break;
   case 204:
-    Keyboard.release(KEY_DOWN); // Actually Keypad 5
+    Keyboard.release(KEY_DOWN);
     break;
+
+  // Keypad 6
   case 77:
-    Keyboard.press(KEY_RIGHT); // Actually Keypad 6
+    Keyboard.press(KEY_RIGHT);
     break;
   case 205:
-    Keyboard.release(KEY_RIGHT); // Actually Keypad 6
+    Keyboard.release(KEY_RIGHT);
     break;
+
+  // Keypad +
   case 78:
     Keyboard.press(KEYPAD_PLUS);
     break;
   case 206:
     Keyboard.release(KEYPAD_PLUS);
     break;
+
+  // Keypad 1
   case 79:
-    Keyboard.press(KEY_END); // Actually Keypad 1
+    Keyboard.press(KEY_END);
     break;
   case 207:
-    Keyboard.release(KEY_END); // Actually Keypad 1
+    Keyboard.release(KEY_END);
     break;
+
+  // Keypad 2
   case 80:
-    Keyboard.press(KEY_DOWN); // Actually Keypad 2
+    Keyboard.press(KEY_DOWN);
     break;
   case 208:
-    Keyboard.release(KEY_DOWN); // Actually Keypad 2
+    Keyboard.release(KEY_DOWN);
     break;
+
+  // Keypad 3
   case 81:
-    Keyboard.press(KEY_PAGE_DOWN); // Actually Keypad 3
+    Keyboard.press(KEY_PAGE_DOWN);
     break;
   case 209:
-    Keyboard.release(KEY_PAGE_DOWN); // Actually Keypad 3
-    break;
+    Keyboard.release(KEY_PAGE_DOWN);
+
+  // Keypad 0
   case 82:
-    Keyboard.press(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
+    Keyboard.press(MODIFIERKEY_RIGHT_ALT);
     break;
   case 210:
-    Keyboard.release(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
+    Keyboard.release(MODIFIERKEY_RIGHT_ALT);
     break;
+
+  // Keypad .
   case 83:
-    Keyboard.press(KEY_DELETE); // Actually Keypad Period
+    Keyboard.press(KEY_DELETE);
     break;
   case 211:
-    Keyboard.release(KEY_DELETE); // actually Keypad Period
+    Keyboard.release(KEY_DELETE);
     break;
 
   default:
