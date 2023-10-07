@@ -17,6 +17,7 @@
  */
 
 #include <EEPROM.h>
+#include <stdbool.h>
 
 // Using Keyboard HID volume codes so we can use it in the low layer set_key
 // communication
@@ -61,6 +62,8 @@ unsigned long keyPresses = 0;
 unsigned int saves = 0;
 
 elapsedMillis sinceLiveReport = 0;
+
+bool isPanicking = false;
 
 void setup()
 {
@@ -546,10 +549,9 @@ void handleKeyEvent(int value)
 
   // PANIC (originally *)
   case 55:
-    Keyboard.press(KEYPAD_ASTERIX);
+    Keyboard.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     break;
   case 183:
-    Keyboard.release(KEYPAD_ASTERIX);
     break;
 
   // Alt
