@@ -109,116 +109,6 @@ void buzzNumber(unsigned long n)
   buzzingNumber = n;
 }
 
-// These handle press/release of Ctrl, Shift, Alt, and Gui keys
-// We don't combine these as a single toggle (using XOR ^) because
-// if the key press state between teensy and computer get out of sync,
-// you would be stuck with the key state being reversed (up=down, down=up)
-// (Okay, I'm paranoid)
-void modKeyPress(int target)
-{
-  modifiers = modifiers | target;
-  updateModifiers();
-  saveKeyPress();
-}
-void modKeyRel(int target)
-{
-  modifiers = modifiers ^ target;
-  updateModifiers();
-}
-void updateModifiers()
-{
-  Keyboard.set_modifier(modifiers);
-  Keyboard.send_now();
-}
-
-// Finds an open slot to place the key press signal in. (6 keys max)
-// Ignores built-in key repeating.
-void setOpenKey(int target)
-{
-  Serial.printf("setting open key %d\n", target);
-  for (int i = 0; i < 6; i++)
-  {
-    //    if (keysHeld[i] == target)
-    //      break;
-    if (keysHeld[i] == 0)
-    {
-      switch (i)
-      {
-      case 0:
-        Keyboard.set_key1(target);
-        break;
-      case 1:
-        Keyboard.set_key2(target);
-        break;
-      case 2:
-        Keyboard.set_key3(target);
-        break;
-      case 3:
-        Keyboard.set_key4(target);
-        break;
-      case 4:
-        Keyboard.set_key5(target);
-        break;
-      case 5:
-        Keyboard.set_key6(target);
-        break;
-      default:
-        break;
-      }
-      keysHeld[i] = target;
-      Keyboard.send_now();
-      break;
-    }
-  }
-  digitalWrite(LED_Pin, LOW);
-  saveKeyPress();
-}
-
-// Clears a key from the buffer if it's there. Otherwise, ignores.
-void clearKey(int target)
-{
-  int any = 0;
-  for (int i = 0; i < 6; i++)
-  {
-    if (keysHeld[i] == target)
-    {
-      switch (i)
-      {
-      case 0:
-        Keyboard.set_key1(0);
-        break;
-      case 1:
-        Keyboard.set_key2(0);
-        break;
-      case 2:
-        Keyboard.set_key3(0);
-        break;
-      case 3:
-        Keyboard.set_key4(0);
-        break;
-      case 4:
-        Keyboard.set_key5(0);
-        break;
-      case 5:
-        Keyboard.set_key6(0);
-        break;
-      default:
-        break;
-      }
-      keysHeld[i] = 0;
-      Keyboard.send_now();
-    }
-    if (keysHeld[i] != 0)
-    {
-      any = 1;
-    }
-  }
-  if (any == 0)
-  {
-    digitalWrite(LED_Pin, HIGH);
-  }
-}
-
 // This function translates scan codes to proper key events
 // First half are key presses, second half are key releases.
 // setOpenKey()/clearKey() are used for siple keypresses (optimized)
@@ -228,198 +118,198 @@ void handleKeyEvent(int value)
   switch (value)
   {
   case 1:
-    setOpenKey(KEY_ESC);
+    Keyboard.press(KEY_ESC);
     break;
   case 2:
-    setOpenKey(KEY_1);
+    Keyboard.press(KEY_1);
     break;
   case 3:
-    setOpenKey(KEY_2);
+    Keyboard.press(KEY_2);
     break;
   case 4:
-    setOpenKey(KEY_3);
+    Keyboard.press(KEY_3);
     break;
   case 5:
-    setOpenKey(KEY_4);
+    Keyboard.press(KEY_4);
     break;
   case 6:
-    setOpenKey(KEY_5);
+    Keyboard.press(KEY_5);
     break;
   case 7:
-    setOpenKey(KEY_6);
+    Keyboard.press(KEY_6);
     break;
   case 8:
-    setOpenKey(KEY_7);
+    Keyboard.press(KEY_7);
     break;
   case 9:
-    setOpenKey(KEY_8);
+    Keyboard.press(KEY_8);
     break;
   case 10:
-    setOpenKey(KEY_9);
+    Keyboard.press(KEY_9);
     break;
   case 11:
-    setOpenKey(KEY_0);
+    Keyboard.press(KEY_0);
     break;
   case 12:
-    setOpenKey(KEY_MINUS);
+    Keyboard.press(KEY_MINUS);
     break;
   case 13:
-    setOpenKey(KEY_EQUAL);
+    Keyboard.press(KEY_EQUAL);
     break;
   case 14:
-    setOpenKey(KEY_BACKSPACE);
+    Keyboard.press(KEY_BACKSPACE);
     break;
   case 15:
-    setOpenKey(KEY_TAB);
+    Keyboard.press(KEY_TAB);
     break;
   case 16:
-    setOpenKey(KEY_Q);
+    Keyboard.press(KEY_Q);
     break;
   case 17:
-    setOpenKey(KEY_W);
+    Keyboard.press(KEY_W);
     break;
   case 18:
-    setOpenKey(KEY_E);
+    Keyboard.press(KEY_E);
     break;
   case 19:
-    setOpenKey(KEY_R);
+    Keyboard.press(KEY_R);
     break;
   case 20:
-    setOpenKey(KEY_T);
+    Keyboard.press(KEY_T);
     break;
   case 21:
-    setOpenKey(KEY_Y);
+    Keyboard.press(KEY_Y);
     break;
   case 22:
-    setOpenKey(KEY_U);
+    Keyboard.press(KEY_U);
     break;
   case 23:
-    setOpenKey(KEY_I);
+    Keyboard.press(KEY_I);
     break;
   case 24:
-    setOpenKey(KEY_O);
+    Keyboard.press(KEY_O);
     break;
   case 25:
-    setOpenKey(KEY_P);
+    Keyboard.press(KEY_P);
     break;
   case 26:
-    setOpenKey(KEY_LEFT_BRACE);
+    Keyboard.press(KEY_LEFT_BRACE);
     break;
   case 27:
-    setOpenKey(KEY_RIGHT_BRACE);
+    Keyboard.press(KEY_RIGHT_BRACE);
     break;
   case 28:
-    setOpenKey(KEY_ENTER); // technically KEYPAD_ENTER
+    Keyboard.press(KEY_ENTER); // technically KEYPAD_ENTER
     break;
   case 29:
-    modKeyPress(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
+    Keyboard.press(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
     break;
   case 30:
-    setOpenKey(KEY_A);
+    Keyboard.press(KEY_A);
     break;
   case 31:
-    setOpenKey(KEY_S);
+    Keyboard.press(KEY_S);
     break;
   case 32:
-    setOpenKey(KEY_D);
+    Keyboard.press(KEY_D);
     break;
   case 33:
-    setOpenKey(KEY_F);
+    Keyboard.press(KEY_F);
     break;
   case 34:
-    setOpenKey(KEY_G);
+    Keyboard.press(KEY_G);
     break;
   case 35:
-    setOpenKey(KEY_H);
+    Keyboard.press(KEY_H);
     break;
   case 36:
-    setOpenKey(KEY_J);
+    Keyboard.press(KEY_J);
     break;
   case 37:
-    setOpenKey(KEY_K);
+    Keyboard.press(KEY_K);
     break;
   case 38:
-    setOpenKey(KEY_L);
+    Keyboard.press(KEY_L);
     break;
   case 39:
-    setOpenKey(KEY_SEMICOLON);
+    Keyboard.press(KEY_SEMICOLON);
     break;
   case 40:
-    setOpenKey(KEY_QUOTE);
+    Keyboard.press(KEY_QUOTE);
     break;
   case 41:
-    setOpenKey(KEY_BACKSLASH); // Actually Tilde
+    Keyboard.press(KEY_BACKSLASH); // Actually Tilde
     break;
   case 42:
-    modKeyPress(MODIFIERKEY_SHIFT); // Left shift
+    Keyboard.press(MODIFIERKEY_SHIFT); // Left shift
     break;
   case 43:
-    setOpenKey(KEY_TILDE); // Actually Backslash
+    Keyboard.press(KEY_TILDE); // Actually Backslash
     break;
   case 44:
-    setOpenKey(KEY_Z);
+    Keyboard.press(KEY_Z);
     break;
   case 45:
-    setOpenKey(KEY_X);
+    Keyboard.press(KEY_X);
     break;
   case 46:
-    setOpenKey(KEY_C);
+    Keyboard.press(KEY_C);
     break;
   case 47:
-    setOpenKey(KEY_V);
+    Keyboard.press(KEY_V);
     break;
   case 48:
-    setOpenKey(KEY_B);
+    Keyboard.press(KEY_B);
     break;
   case 49:
-    setOpenKey(KEY_N);
+    Keyboard.press(KEY_N);
     break;
   case 50:
-    setOpenKey(KEY_M);
+    Keyboard.press(KEY_M);
     break;
   case 51:
-    setOpenKey(KEY_COMMA);
+    Keyboard.press(KEY_COMMA);
     break;
   case 52:
-    setOpenKey(KEY_PERIOD);
+    Keyboard.press(KEY_PERIOD);
     break;
   case 53:
-    setOpenKey(KEY_SLASH);
+    Keyboard.press(KEY_SLASH);
     break;
   case 54:
-    modKeyPress(MODIFIERKEY_RIGHT_SHIFT);
+    Keyboard.press(MODIFIERKEY_RIGHT_SHIFT);
     break;
   case 55:
-    setOpenKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    Keyboard.press(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
     break;
   case 56:
-    modKeyPress(MODIFIERKEY_GUI); // actually the Alt key
+    Keyboard.press(MODIFIERKEY_GUI); // actually the Alt key
     break;
   case 57:
-    setOpenKey(KEY_SPACE);
+    Keyboard.press(KEY_SPACE);
     break;
   case 58:
-    modKeyPress(MODIFIERKEY_RIGHT_GUI); // actually the Caps Lock key
+    Keyboard.press(MODIFIERKEY_RIGHT_GUI); // actually the Caps Lock key
     break;
   case 59:
-    setOpenKey(KEY_F1);
+    Keyboard.press(KEY_F1);
     break;
   case 60:
-    setOpenKey(KEY_F2);
+    Keyboard.press(KEY_F2);
     break;
   case 61:
     // This causes Brightness Down on macOS
-    setOpenKey(KEY_SCROLL_LOCK);
+    Keyboard.press(KEY_SCROLL_LOCK);
     break;
   case 62:
     // This causes Brightness Up on macOS
-    setOpenKey(KEY_PAUSE);
+    Keyboard.press(KEY_PAUSE);
     break;
   case 63:
     Keyboard.press(KEY_MEDIA_PLAY_PAUSE);
     break;
   case 64:
-    setOpenKey(HID_KEY_MUTE);
+    Keyboard.press(HID_KEY_MUTE);
     break;
   case 65:
     Keyboard.press(KEY_MEDIA_REWIND);
@@ -428,250 +318,250 @@ void handleKeyEvent(int value)
     Keyboard.press(KEY_MEDIA_FAST_FORWARD);
     break;
   case 67:
-    setOpenKey(HID_KEY_VOLUMEDOWN);
+    Keyboard.press(HID_KEY_VOLUMEDOWN);
     break;
   case 68:
-    setOpenKey(HID_KEY_VOLUMEUP);
+    Keyboard.press(HID_KEY_VOLUMEUP);
     break;
   case 69:
-    setOpenKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    Keyboard.press(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
   case 70: // Scroll Lock
     buzzNumber(keyPresses);
     break;
   case 71:
-    setOpenKey(KEY_HOME); // actually Keypad 7
+    Keyboard.press(KEY_HOME); // actually Keypad 7
     break;
   case 72:
-    setOpenKey(KEY_UP); // actually Keypad 8
+    Keyboard.press(KEY_UP); // actually Keypad 8
     break;
   case 73:
-    setOpenKey(KEY_PAGE_UP); // actually Keypad 9
+    Keyboard.press(KEY_PAGE_UP); // actually Keypad 9
     break;
   case 74:
-    setOpenKey(KEYPAD_MINUS);
+    Keyboard.press(KEYPAD_MINUS);
     break;
   case 75:
-    setOpenKey(KEY_LEFT); // Actually Keypad 4
+    Keyboard.press(KEY_LEFT); // Actually Keypad 4
     break;
   case 76:
-    setOpenKey(KEY_DOWN); // Actually Keypad 5
+    Keyboard.press(KEY_DOWN); // Actually Keypad 5
     break;
   case 77:
-    setOpenKey(KEY_RIGHT); // Actually Keypad 6
+    Keyboard.press(KEY_RIGHT); // Actually Keypad 6
     break;
   case 78:
-    setOpenKey(KEYPAD_PLUS);
+    Keyboard.press(KEYPAD_PLUS);
     break;
   case 79:
-    setOpenKey(KEY_END); // Actually Keypad 1
+    Keyboard.press(KEY_END); // Actually Keypad 1
     break;
   case 80:
-    setOpenKey(KEY_DOWN); // Actually Keypad 2
+    Keyboard.press(KEY_DOWN); // Actually Keypad 2
     break;
   case 81:
-    setOpenKey(KEY_PAGE_DOWN); // Actually Keypad 3
+    Keyboard.press(KEY_PAGE_DOWN); // Actually Keypad 3
     break;
   case 82:
-    modKeyPress(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
+    Keyboard.press(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
     break;
   case 83:
-    setOpenKey(KEY_DELETE); // Actually Keypad Period
+    Keyboard.press(KEY_DELETE); // Actually Keypad Period
     break;
 
     /////////////THESE ARE THE BREAK SIGNALS//////////////
 
   case 129:
-    clearKey(KEY_ESC);
+    Keyboard.release(KEY_ESC);
     break;
   case 130:
-    clearKey(KEY_1);
+    Keyboard.release(KEY_1);
     break;
   case 131:
-    clearKey(KEY_2);
+    Keyboard.release(KEY_2);
     break;
   case 132:
-    clearKey(KEY_3);
+    Keyboard.release(KEY_3);
     break;
   case 133:
-    clearKey(KEY_4);
+    Keyboard.release(KEY_4);
     break;
   case 134:
-    clearKey(KEY_5);
+    Keyboard.release(KEY_5);
     break;
   case 135:
-    clearKey(KEY_6);
+    Keyboard.release(KEY_6);
     break;
   case 136:
-    clearKey(KEY_7);
+    Keyboard.release(KEY_7);
     break;
   case 137:
-    clearKey(KEY_8);
+    Keyboard.release(KEY_8);
     break;
   case 138:
-    clearKey(KEY_9);
+    Keyboard.release(KEY_9);
     break;
   case 139:
-    clearKey(KEY_0);
+    Keyboard.release(KEY_0);
     break;
   case 140:
-    clearKey(KEY_MINUS);
+    Keyboard.release(KEY_MINUS);
     break;
   case 141:
-    clearKey(KEY_EQUAL);
+    Keyboard.release(KEY_EQUAL);
     break;
   case 142:
-    clearKey(KEY_BACKSPACE);
+    Keyboard.release(KEY_BACKSPACE);
     break;
   case 143:
-    clearKey(KEY_TAB);
+    Keyboard.release(KEY_TAB);
     break;
   case 144:
-    clearKey(KEY_Q);
+    Keyboard.release(KEY_Q);
     break;
   case 145:
-    clearKey(KEY_W);
+    Keyboard.release(KEY_W);
     break;
   case 146:
-    clearKey(KEY_E);
+    Keyboard.release(KEY_E);
     break;
   case 147:
-    clearKey(KEY_R);
+    Keyboard.release(KEY_R);
     break;
   case 148:
-    clearKey(KEY_T);
+    Keyboard.release(KEY_T);
     break;
   case 149:
-    clearKey(KEY_Y);
+    Keyboard.release(KEY_Y);
     break;
   case 150:
-    clearKey(KEY_U);
+    Keyboard.release(KEY_U);
     break;
   case 151:
-    clearKey(KEY_I);
+    Keyboard.release(KEY_I);
     break;
   case 152:
-    clearKey(KEY_O);
+    Keyboard.release(KEY_O);
     break;
   case 153:
-    clearKey(KEY_P);
+    Keyboard.release(KEY_P);
     break;
   case 154:
-    clearKey(KEY_LEFT_BRACE);
+    Keyboard.release(KEY_LEFT_BRACE);
     break;
   case 155:
-    clearKey(KEY_RIGHT_BRACE);
+    Keyboard.release(KEY_RIGHT_BRACE);
     break;
   case 156:
-    clearKey(KEY_ENTER); // This is technically KEYPAD_ENTER
+    Keyboard.release(KEY_ENTER); // This is technically KEYPAD_ENTER
     break;
   case 157:
-    modKeyRel(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
+    Keyboard.release(MODIFIERKEY_CTRL); // Model F CONTROL KEY IS IN STRANGE SPOT
     break;
   case 158:
-    clearKey(KEY_A);
+    Keyboard.release(KEY_A);
     break;
   case 159:
-    clearKey(KEY_S);
+    Keyboard.release(KEY_S);
     break;
   case 160:
-    clearKey(KEY_D);
+    Keyboard.release(KEY_D);
     break;
   case 161:
-    clearKey(KEY_F);
+    Keyboard.release(KEY_F);
     break;
   case 162:
-    clearKey(KEY_G);
+    Keyboard.release(KEY_G);
     break;
   case 163:
-    clearKey(KEY_H);
+    Keyboard.release(KEY_H);
     break;
   case 164:
-    clearKey(KEY_J);
+    Keyboard.release(KEY_J);
     break;
   case 165:
-    clearKey(KEY_K);
+    Keyboard.release(KEY_K);
     break;
   case 166:
-    clearKey(KEY_L);
+    Keyboard.release(KEY_L);
     break;
   case 167:
-    clearKey(KEY_SEMICOLON);
+    Keyboard.release(KEY_SEMICOLON);
     break;
   case 168:
-    clearKey(KEY_QUOTE);
+    Keyboard.release(KEY_QUOTE);
     break;
   case 169:
-    clearKey(KEY_BACKSLASH); // Actually Tilde
+    Keyboard.release(KEY_BACKSLASH); // Actually Tilde
     break;
   case 170:
-    modKeyRel(MODIFIERKEY_SHIFT); // Left shift
+    Keyboard.release(MODIFIERKEY_SHIFT); // Left shift
     break;
   case 171:
-    clearKey(KEY_TILDE); // Actually Backslash
+    Keyboard.release(KEY_TILDE); // Actually Backslash
     break;
   case 172:
-    clearKey(KEY_Z);
+    Keyboard.release(KEY_Z);
     break;
   case 173:
-    clearKey(KEY_X);
+    Keyboard.release(KEY_X);
     break;
   case 174:
-    clearKey(KEY_C);
+    Keyboard.release(KEY_C);
     break;
   case 175:
-    clearKey(KEY_V);
+    Keyboard.release(KEY_V);
     break;
   case 176:
-    clearKey(KEY_B);
+    Keyboard.release(KEY_B);
     break;
   case 177:
-    clearKey(KEY_N);
+    Keyboard.release(KEY_N);
     break;
   case 178:
-    clearKey(KEY_M);
+    Keyboard.release(KEY_M);
     break;
   case 179:
-    clearKey(KEY_COMMA);
+    Keyboard.release(KEY_COMMA);
     break;
   case 180:
-    clearKey(KEY_PERIOD);
+    Keyboard.release(KEY_PERIOD);
     break;
   case 181:
-    clearKey(KEY_SLASH);
+    Keyboard.release(KEY_SLASH);
     break;
   case 182:
-    modKeyRel(MODIFIERKEY_RIGHT_SHIFT);
+    Keyboard.release(MODIFIERKEY_RIGHT_SHIFT);
     break;
   case 183:
-    clearKey(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
+    Keyboard.release(KEYPAD_ASTERIX); // Make sure to handle NUM LOCK internally!!!!!
     break;
   case 184:
-    modKeyRel(MODIFIERKEY_GUI); // Actually the Alt key
+    Keyboard.release(MODIFIERKEY_GUI); // Actually the Alt key
     break;
   case 185:
-    clearKey(KEY_SPACE);
+    Keyboard.release(KEY_SPACE);
     break;
   case 186:
-    modKeyRel(MODIFIERKEY_RIGHT_GUI); // Actually the Caps Lock key
+    Keyboard.release(MODIFIERKEY_RIGHT_GUI); // Actually the Caps Lock key
     break;
   case 187:
-    clearKey(KEY_F1);
+    Keyboard.release(KEY_F1);
     break;
   case 188:
-    clearKey(KEY_F2);
+    Keyboard.release(KEY_F2);
     break;
   case 189:
-    clearKey(KEY_SCROLL_LOCK);
+    Keyboard.release(KEY_SCROLL_LOCK);
     break;
   case 190:
-    clearKey(KEY_PAUSE);
+    Keyboard.release(KEY_PAUSE);
     break;
   case 191:
     Keyboard.release(KEY_MEDIA_PLAY_PAUSE);
     break;
   case 192:
-    clearKey(HID_KEY_MUTE);
+    Keyboard.release(HID_KEY_MUTE);
     break;
   case 193:
     Keyboard.release(KEY_MEDIA_REWIND);
@@ -680,57 +570,55 @@ void handleKeyEvent(int value)
     Keyboard.release(KEY_MEDIA_FAST_FORWARD);
     break;
   case 195:
-    clearKey(HID_KEY_VOLUMEDOWN);
+    Keyboard.release(HID_KEY_VOLUMEDOWN);
     break;
   case 196:
-    clearKey(HID_KEY_VOLUMEUP);
+    Keyboard.release(HID_KEY_VOLUMEUP);
     break;
   case 197:
-    clearKey(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
+    Keyboard.release(KEY_NUM_LOCK); // HANDLED SEMI-INTERNALLY!
     break;
   case 198: // Scroll Lock
     break;
   case 199:
-    clearKey(KEY_HOME); // Actually Keypad 7
+    Keyboard.release(KEY_HOME); // Actually Keypad 7
     break;
   case 200:
-    clearKey(KEY_UP); // Actually Keypad 8
+    Keyboard.release(KEY_UP); // Actually Keypad 8
     break;
   case 201:
-    clearKey(KEY_PAGE_UP); // Actually Keypad 9
+    Keyboard.release(KEY_PAGE_UP); // Actually Keypad 9
     break;
   case 202:
-    clearKey(KEYPAD_MINUS);
+    Keyboard.release(KEYPAD_MINUS);
     break;
   case 203:
-    clearKey(KEY_LEFT); // Actually Keypad 4
+    Keyboard.release(KEY_LEFT); // Actually Keypad 4
     break;
   case 204:
-    clearKey(KEY_DOWN); // Actually Keypad 5
+    Keyboard.release(KEY_DOWN); // Actually Keypad 5
     break;
   case 205:
-    clearKey(KEY_RIGHT); // Actually Keypad 6
+    Keyboard.release(KEY_RIGHT); // Actually Keypad 6
     break;
   case 206:
-    clearKey(KEYPAD_PLUS);
+    Keyboard.release(KEYPAD_PLUS);
     break;
   case 207:
-    clearKey(KEY_END); // Actually Keypad 1
+    Keyboard.release(KEY_END); // Actually Keypad 1
     break;
   case 208:
-    clearKey(KEY_DOWN); // Actually Keypad 2
+    Keyboard.release(KEY_DOWN); // Actually Keypad 2
     break;
   case 209:
-    clearKey(KEY_PAGE_DOWN); // Actually Keypad 3
+    Keyboard.release(KEY_PAGE_DOWN); // Actually Keypad 3
     break;
   case 210:
-    modKeyRel(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
+    Keyboard.release(MODIFIERKEY_RIGHT_ALT); // actually Keypad 0
     break;
   case 211:
-    clearKey(KEY_DELETE); // actually Keypad Period
+    Keyboard.release(KEY_DELETE); // actually Keypad Period
     break;
-
-    /////////SORRY, I ONLY IMPLEMENTED MODEL F XT 83 KEY SUPPORT/////////////
 
   default:
     break;
